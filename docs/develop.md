@@ -8,7 +8,7 @@
   - `issue1`ブランチを作る (名前はissueの番号に合わせる)
   - ブランチに入る (checkout)
   - 編集する!💪
-  - プラスボタンでファイルをcommit対象を決める。 (stage)
+  - プラスボタンでcommit対象のファイルを決める。 (stage)
   - commitメッセージを書いて、チェックボタン。 (commit)
   - GitHubにプッシュする (Push)
 - Github
