@@ -10,9 +10,3 @@ React
 - binance.js: binance api用
 - ftx.js: ftx api用
 - bybit.js: bybit api用
-
-team cryptocurrency
-
-hello
-
-good
