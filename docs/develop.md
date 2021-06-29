@@ -22,4 +22,4 @@
   - 変更を確認する。(Code review)
   - "いいね"のコメントをする
   - "Review & Merge"を押す
-  - Delte Branch (任意)
+  - Delete Branch (任意) (←志田がスペル直したよ)
