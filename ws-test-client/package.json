@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
+  "name": "ws-test-client",
   "version": "1.0.0",
-  "description": "My webpack project",
+  "description": "WebSocket client for testing",
   "main": "index.js",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
