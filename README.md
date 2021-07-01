@@ -1,2 +1,2 @@
-# crypto-data-plaform
+# crypto-data-platform
 A project for UEQ camp
