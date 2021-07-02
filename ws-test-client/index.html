@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>WebSocket Client</title>
+  </head>
+  <body>
+    <h1>WebSocket Client</h1>
+    <h2>WSデバッグ方法</h2>
+    <ol>
+      <li>Chrome開発者ツール[Network]タブを開く</li>
+      <li>Filter(漏斗のマーク) → WSで絞り込む (任意)</li>
+      <li>確認したいWebSocketの接続をクリックして選択</li>
+      <li>Messagesタブで、送受信内容を確認</li>
+    </ol>
+    <h2>接続テスト</h2>
+    <div>
+      <input type="text" id="url" value="wss://echo.websocket.org" style="width: 30em"> <button id="connect-button">Connect</button> <button id="disconnect-button">Disconnect</button>
+    </div>
+    <div>
+      <textarea id="data-textbox" style="width:30em"></textarea><button id="send-button">Send</button>
+    </div>
+    <div>
+      <select id="output-style">
+        <option value="raw">raw</option>
+        <option value="json">json</option>
+      </select>
+      <pre id="output-info"></pre>
+      <pre id="output-body"></pre>
+    </div>
+  </body>
+</html>
