@@ -23,3 +23,4 @@
   - "いいね"のコメントをする
   - "Review & Merge"を押す
   - Delete Branch (任意) (←志田がスペル直したよ)
+  - Hello World (20210708_shida)
