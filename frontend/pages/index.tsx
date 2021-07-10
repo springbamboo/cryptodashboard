@@ -9,9 +9,10 @@ const DynamicComponentWithNoSSR = dynamic(() => import('./index'), { ssr: false 
 const WS_URL = 'ws://localhost:5001'
 
 export default function Home() {
-  if (typeof WebSocket !== 'undefined') {
-    const [socket, _] = useState(() => new WebSocket(WS_URL))
-    useEffect(() => {
+  // init Websocket (only on client side)
+  const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null))
+  useEffect(() => {
+    if (typeof WebSocket !== 'undefined') {
       socket.addEventListener('open', (e) => {
         console.log('open')
       })
@@ -32,8 +33,8 @@ export default function Home() {
       return () => {
         socket.close()
       }
-    }, [])
-  }
+    }
+  })
   return (
     <div className={styles.container}>
       <Head>
