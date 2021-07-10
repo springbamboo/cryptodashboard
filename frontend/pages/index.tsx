@@ -4,39 +4,36 @@ import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
 
-const DynamicComponentWithNoSSR = dynamic(
-  () => import('./index'),
-  { ssr: false }
-)
+const DynamicComponentWithNoSSR = dynamic(() => import('./index'), { ssr: false })
 
 const WS_URL = 'ws://localhost:5001'
 
 export default function Home() {
-  // console.log(location.href)
-  // const [socket, _] = useState(() => new WebSocket(WS_URL))
-  // useEffect(() => {
-  //   socket.addEventListener('open', (e) => {
-  //     console.log('open')
-  //   })
+  if (typeof WebSocket !== 'undefined') {
+    const [socket, _] = useState(() => new WebSocket(WS_URL))
+    useEffect(() => {
+      socket.addEventListener('open', (e) => {
+        console.log('open')
+      })
 
-  //   socket.addEventListener('message', (e) => {
-  //     console.log(`message: ${new Date().toISOString()}\n${e.data}`)
-  //   })
+      socket.addEventListener('message', (e) => {
+        console.log(`message: ${new Date().toISOString()}\n${e.data}`)
+      })
 
-  //   socket.addEventListener('close', (e) => {
-  //     console.log('close')
-  //     console.log(e)
-  //   })
+      socket.addEventListener('close', (e) => {
+        console.log('close')
+        console.log(e)
+      })
 
-  //   socket.addEventListener('error', (e) => {
-  //     console.log('error')
-  //     console.log(e)
-  //   })
-  //   return () => {
-  //     socket.close()
-  //   }
-  // }, [])
-
+      socket.addEventListener('error', (e) => {
+        console.log('error')
+        console.log(e)
+      })
+      return () => {
+        socket.close()
+      }
+    }, [])
+  }
   return (
     <div className={styles.container}>
       <Head>
