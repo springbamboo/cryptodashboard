@@ -1,46 +1,40 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
 import styles from '../styles/Home.module.css'
+
+const DynamicComponentWithNoSSR = dynamic(() => import('./index'), { ssr: false })
 
 const WS_URL = 'ws://localhost:5001'
 
 export default function Home() {
-  const [socket, setSocket] = useState<WebSocket>(null)
-
-  // useEffectはレンダリング後に実行
+  // init Websocket (only on client side)
+  const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null))
   useEffect(() => {
-    // サーバ側ではWebSocketが使えないのでスキップ
-    if (!process.browser) return
+    if (typeof WebSocket !== 'undefined') {
+      socket.addEventListener('open', (e) => {
+        console.log('open')
+      })
 
-    // WebSocket初期化
-    setSocket(new WebSocket(WS_URL))
+      socket.addEventListener('message', (e) => {
+        console.log(`message: ${new Date().toISOString()}\n${e.data}`)
+      })
 
-    // 接続時
-    socket.addEventListener('open', (e) => {
-      console.log('open')
-    })
+      socket.addEventListener('close', (e) => {
+        console.log('close')
+        console.log(e)
+      })
 
-    // メッセージが来たとき
-    socket.addEventListener('message', (e) => {
-      console.log(`message: ${new Date().toISOString()}\n${e.data}`)
-    })
-
-    // 切断時
-    socket.addEventListener('close', (e) => {
-      console.log('close')
-      console.log(e)
-    })
-
-    // 接続エラー (サーバ側起動してない等)
-    socket.addEventListener('error', (e) => {
-      console.log('error')
-      console.log(e)
-    })
-    return () => {
-      socket.close()
+      socket.addEventListener('error', (e) => {
+        console.log('error')
+        console.log(e)
+      })
+      return () => {
+        socket.close()
+      }
     }
-  }, [socket])
+  })
   return (
     <div className={styles.container}>
       <Head>
