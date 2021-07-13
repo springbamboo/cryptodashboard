@@ -46,12 +46,13 @@ export default function Home() {
       </div>
       <div>
         <Header />
+        {/* Share */}
         {/* Icon koko dayo https://material-ui.com/components/material-icons/ */}
         <AppleIcon />
-        <AppleIcon />
-        <AppleIcon />
-        <AppleIcon />
-        <AppleIcon />
+        <AppleIcon color="primary" />
+        <AppleIcon color="secondary" />
+        <AppleIcon style={{ color: '#888' }}  />
+        <AppleIcon color="disabled" />
         <AppleIcon />
         <AppleIcon />
         <AppleIcon />
