@@ -17,20 +17,6 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  palette: {
-    primary: {
-      light: '#222222',
-      main: '#222222',
-      dark: '#222222',
-      contrastText: '#222222',
-    },
-    secondary: {
-      light: '#222222',
-      main: '#222222',
-      dark: '#222222',
-      contrastText: '#222222',
-    },
-  }
 }));
 
 export default function ButtonAppBar() {
@@ -44,9 +30,11 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Hello GORIGORI
+            CRYPTO DATA
           </Typography>
-          <Button color="inherit">GORI</Button>
+          <Button color="inherit">Home</Button>
+          <Button color="inherit">Our API</Button>
+          <Button color="inherit">About</Button>
         </Toolbar>
       </AppBar>
     </div>
