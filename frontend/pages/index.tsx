@@ -1,7 +1,11 @@
+// メインページ
+import React from 'react';
 import dynamic from 'next/dynamic'
 import { useEffect, useState } from 'react'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Header from '../components/Header'
 import AppBarTest from '../components/AppBarTest'
+import CurrencySwitchButton from '../components/CurrencySwitchButton'
 import DataTable from '../components/DataTable'
 // import AppBar from '@material-ui/core/AppBar';
 // import Button from '@material-ui/core/Button';
@@ -12,24 +16,6 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const DynamicComponentWithNoSSR = dynamic(() => import('./index'), { ssr: false })
 const WS_URL = 'ws://localhost:5001'
-
-const theme = createTheme({
-  palette: {
-    type: 'dark',
-    primary: {
-      // light: '#757ce8',
-      main: '#121212',
-      // dark: '#002884',
-      // contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#ff1111',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
 
 export default function Home() {
   // init Websocket (only on client side)
@@ -58,17 +44,41 @@ export default function Home() {
       }
     }
   })
+
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // userがダークモードを使用しているかどうかをチェック
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: { // メインページの配色設定
+          type: prefersDarkMode ? 'dark' : 'light', // userがダークモードを使用しているかどうかでモードを切り替える
+          primary: {
+            // light: '#757ce8',
+            main: '#121212',
+            // dark: '#002884',
+            // contrastText: '#fff',
+          },
+          secondary: {
+            light: '#ff7961',
+            main: '#ff1111',
+            dark: '#ba000d',
+            contrastText: '#000',
+          },
+        },
+      }),
+    [prefersDarkMode],
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <div>
-      {/* <Button variant="contained" color="primary">Hello World</Button> */}
-      <AppBarTest />
+        {/* <Button variant="contained" color="primary">Hello World</Button> */}
+        <AppBarTest />
       </div>
       <div>
-        <div ></div>
         {/* <Header /> */}
         {/* Share */}
         {/* Icon koko dayo https://material-ui.com/components/material-icons/ */}
+        <CurrencySwitchButton />
         <DataTable />
         <AppleIcon />
         <AppleIcon color="primary" />
