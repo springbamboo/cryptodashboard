@@ -52,10 +52,10 @@ export default function Home() {
         palette: { // メインページの配色設定
           type: prefersDarkMode ? 'dark' : 'light', // userがダークモードを使用しているかどうかでモードを切り替える
           primary: {
-            // light: '#757ce8',
-            main: '#121212',
-            // dark: '#002884',
-            // contrastText: '#fff',
+            light: '#757ce8',
+            main: '#121212', // テーマmainカラー
+            dark: '#002884',
+            contrastText: '#fff',
           },
           secondary: {
             light: '#ff7961',
@@ -63,13 +63,16 @@ export default function Home() {
             dark: '#ba000d',
             contrastText: '#000',
           },
+          // background: {
+          //   paper: "#000000"
+          // }
         },
       }),
     [prefersDarkMode],
   );
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} >
       <div>
         {/* <Button variant="contained" color="primary">Hello World</Button> */}
         <AppBarTest />
@@ -81,7 +84,7 @@ export default function Home() {
         <CurrencySwitchButton />
         <DataTable />
         <AppleIcon />
-        <AppleIcon color="primary" />
+        {/* <AppleIcon color="primary" /> */}
         <AppleIcon color="secondary" />
         <AppleIcon style={{ color: '#888' }}  />
         <AppleIcon color="disabled" />

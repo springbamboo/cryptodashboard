@@ -15,18 +15,20 @@ export default function ContainedButtons() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <Button variant="contained">Bitcoin</Button>
-      <Button variant="contained" color="primary">
+    <div className={classes.root} color="inherit">
+      <Button variant="contained" disableElevation>
+        Bitcoin
+      </Button>
+      <Button variant="contained" disableElevation>
       Ethereum
       </Button>
-      <Button variant="contained" color="secondary">
+      <Button variant="contained" disableElevation>
         aabbcc
       </Button>
-      <Button variant="contained" disabled>
+      <Button variant="contained" disableElevation>
         ddeeffgg
       </Button>
-      <Button variant="contained" color="primary" href="#contained-buttons">
+      <Button variant="contained" href="#contained-buttons" disableElevation>
         hhii
       </Button>
     </div>

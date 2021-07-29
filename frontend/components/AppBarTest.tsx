@@ -12,11 +12,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
-  menuButton: {
+  menuButton: { // ハンバーガーメニュー
     marginRight: theme.spacing(2),
   },
-  title: {
+  title: { // アイコン
     flexGrow: 1,
+    color: "#ccccff",
   },
 }));
 
@@ -25,17 +26,17 @@ export default function ButtonAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="inherit">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+          <IconButton edge="start" className={classes.menuButton} aria-label="menu">
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             CRYPTO DATA
           </Typography>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Our API</Button>
-          <Button color="inherit">About</Button>
+          <Button>Home</Button>
+          <Button>Our API</Button>
+          <Button>About</Button>
         </Toolbar>
       </AppBar>
     </div>
