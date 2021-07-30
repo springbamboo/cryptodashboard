@@ -45,12 +45,13 @@ export default function Home() {
     }
   })
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // userがダークモードを使用しているかどうかをチェック
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // userがダークモードを使用しているかどうかをチェック
   const theme = React.useMemo(
     () =>
       createTheme({
         palette: { // メインページの配色設定
-          type: prefersDarkMode ? 'dark' : 'light', // userがダークモードを使用しているかどうかでモードを切り替える
+          // type: prefersDarkMode ? 'dark' : 'light', // userがダークモードを使用しているかどうかでモードを切り替える
+          type: 'dark', // userがダークモードを使用しているかどうかでモードを切り替える
           primary: {
             light: '#757ce8',
             main: '#121212', // テーマmainカラー
@@ -68,7 +69,7 @@ export default function Home() {
           // }
         },
       }),
-    [prefersDarkMode],
+    // [prefersDarkMode],
   );
 
   return (
