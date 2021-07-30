@@ -15,37 +15,39 @@ import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
 const DynamicComponentWithNoSSR = dynamic(() => import('./index'), { ssr: false })
-const WS_URL = 'ws://localhost:5001'
+// const WS_URL = 'ws://localhost:5001'
 
 export default function Home() {
-  // init Websocket (only on client side)
-  const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null))
-  useEffect(() => {
-    if (typeof WebSocket !== 'undefined') {
-      socket.addEventListener('open', (e) => {
-        console.log('open')
-      })
+  // // init Websocket (only on client side)
+  // const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null))
+  // let tmpValue;
+  // useEffect(() => {
+  //   if (typeof WebSocket !== 'undefined') {
+  //     socket.addEventListener('open', (e) => {
+  //       console.log('open')
+  //     })
 
-      socket.addEventListener('message', (e) => {
-        console.log(`message: ${new Date().toISOString()}\n${e.data}`)
-      })
+  //     socket.addEventListener('message', (e) => {
+  //       console.log(`message: ${new Date().toISOString()}\n${e.data}`)
+  //       tmpValue = e.data;
+  //     })
 
-      socket.addEventListener('close', (e) => {
-        console.log('close')
-        console.log(e)
-      })
+  //     socket.addEventListener('close', (e) => {
+  //       console.log('close')
+  //       console.log(e)
+  //     })
 
-      socket.addEventListener('error', (e) => {
-        console.log('error')
-        console.log(e)
-      })
-      return () => {
-        socket.close()
-      }
-    }
-  })
+  //     socket.addEventListener('error', (e) => {
+  //       console.log('error')
+  //       console.log(e)
+  //     })
+  //     return () => {
+  //       socket.close()
+  //     }
+  //   }
+  // })
 
-  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); // userがダークモードを使用しているかどうかをチェック
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)'); // userがダークモードを使用しているかどうかをチェック
   const theme = React.useMemo(
     () =>
       createTheme({
@@ -69,7 +71,7 @@ export default function Home() {
           // }
         },
       }),
-    // [prefersDarkMode],
+    [prefersDarkMode],
   );
 
   return (
@@ -84,12 +86,12 @@ export default function Home() {
         {/* Icon koko dayo https://material-ui.com/components/material-icons/ */}
         <CurrencySwitchButton />
         <DataTable />
-        <AppleIcon />
+        {/* <AppleIcon /> */}
         {/* <AppleIcon color="primary" /> */}
-        <AppleIcon color="secondary" />
+        {/* <AppleIcon color="secondary" />
         <AppleIcon style={{ color: '#888' }}  />
         <AppleIcon color="disabled" />
-        <AppleIcon />
+        <AppleIcon /> */}
       </div>
     </ThemeProvider>
   )
