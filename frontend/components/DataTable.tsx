@@ -1,5 +1,3 @@
-// メインページ 取引所ごとのデータ表
-import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -20,7 +18,7 @@ function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, 
 }
 
 const rows = [
-  createData('1', 'Binance', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+  createData('1', 'Binance', 'BTCSUDT',1234, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   createData('1', 'Bybit', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   createData('1', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   createData('1', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
@@ -28,7 +26,6 @@ const rows = [
 
 export default function BasicTable() {
   const classes = useStyles();
-
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
