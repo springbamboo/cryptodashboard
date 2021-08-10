@@ -7,6 +7,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
+import useWsService from '../services/front_back_socket';
+
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -32,7 +34,8 @@ export default function BasicTable() {
         <TableHead>
           <TableRow>
             <TableCell>Rank</TableCell>
-            <TableCell align="left">Exchange</TableCell>
+            {/* <TableCell align="left">Exchange</TableCell> */}
+            <TableCell align="left">{useWsService()}</TableCell>
             <TableCell align="left">Pair</TableCell>
             <TableCell align="left">Price</TableCell>
             <TableCell align="left">Long&nbsp;(%)</TableCell>
