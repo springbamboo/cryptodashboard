@@ -2,19 +2,18 @@ import {useState, useEffect} from 'react';
 
 const WS_URL = 'ws://localhost:5001'
 
-export default function useWsService() {
+export default function useWsService(setPrice) {
   const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null))
-  const [wsdata, setWsData] = useState(0);
+  // const [wsdata, setWsData] = useState(0);
   useEffect(() => {
     if (typeof WebSocket !== 'undefined') {
       socket.addEventListener('open', (e) => {
         console.log('open')
       })
       socket.addEventListener('message', (e) => {
-        // console.log(`message: ${new Date().toISOString()}\n${e.data}`)
-        // console.log(e.data);
-        setWsData( e.data );
-        // return e.data;
+        // setWsData(setPrice);
+        // console.log(JSON.parse(e.data).BTCUSDT_p)
+        setPrice(JSON.parse(e.data).BTCUSDT_p)
       })
       socket.addEventListener('close', (e) => {
         console.log('close')
@@ -25,8 +24,8 @@ export default function useWsService() {
         console.log(e)
       })
     }
-  } )
-  return wsdata;
+  })
+  // return wsdata;
 }
 
 // export default useWsService

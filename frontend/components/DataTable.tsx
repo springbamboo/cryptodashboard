@@ -6,8 +6,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
 import useWsService from '../services/front_back_socket';
+import {useState, useEffect} from 'react'
+
 
 const useStyles = makeStyles({
   table: {
@@ -27,15 +28,18 @@ const rows = [
 ];
 
 export default function BasicTable() {
+  const [price, setPrice] = useState(0)
+  useWsService(setPrice)
   const classes = useStyles();
   return (
+    <div>
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Rank</TableCell>
             {/* <TableCell align="left">Exchange</TableCell> */}
-            <TableCell align="left">{useWsService()}</TableCell>
+            <TableCell align="left">{price}</TableCell>
             <TableCell align="left">Pair</TableCell>
             <TableCell align="left">Price</TableCell>
             <TableCell align="left">Long&nbsp;(%)</TableCell>
@@ -46,8 +50,8 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.Rank}>
+          {rows.map((row,i) => (
+            <TableRow key={i}>
               <TableCell component="th" scope="row">
                 {row.Rank}
               </TableCell>
@@ -64,5 +68,6 @@ export default function BasicTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   );
 }
