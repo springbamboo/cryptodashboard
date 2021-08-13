@@ -29,7 +29,7 @@ export default function BasicTable() {
       fontWeight: 'bold',
       paddingTop: 10,
       paddingBottom: 10,
-      backgroundColor: '#222222',
+      backgroundColor: '#333333',
     }
   });
   

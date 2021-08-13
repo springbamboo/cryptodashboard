@@ -14,7 +14,7 @@ export default function Home() {
 
   const useStyles = makeStyles({
     background: {
-      backgroundColor: '#666666',
+      backgroundColor: '#555555',
     }
   });
   const classes = useStyles();
