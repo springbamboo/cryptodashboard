@@ -9,27 +9,26 @@ import Paper from '@material-ui/core/Paper';
 import useWsService from '../services/front_back_socket';
 import {useState, useEffect} from 'react'
 
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-  },
-});
-
-function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ) {
-  return { Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged };
-}
-
-const rows = [
-  createData('1', 'Binance', 'BTCSUDT',1234, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-  createData('1', 'Bybit', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-  createData('1', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-  createData('1', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-];
-
 export default function BasicTable() {
   const [price, setPrice] = useState(0)
   useWsService(setPrice)
+
+  const useStyles = makeStyles({
+    table: {
+      minWidth: 650,
+    },
+  });
+  
+  function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ) {
+    return { Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged };
+  }
+  
+  const rows = [
+    createData('1', 'Binance', 'BTCSUDT',price, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('2', 'Bybit', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('3', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('4', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+  ];
   const classes = useStyles();
   return (
     <div>
@@ -39,7 +38,7 @@ export default function BasicTable() {
           <TableRow>
             <TableCell>Rank</TableCell>
             {/* <TableCell align="left">Exchange</TableCell> */}
-            <TableCell align="left">{price}</TableCell>
+            <TableCell align="left">Exchange</TableCell>
             <TableCell align="left">Pair</TableCell>
             <TableCell align="left">Price</TableCell>
             <TableCell align="left">Long&nbsp;(%)</TableCell>

@@ -1,14 +1,7 @@
-// ✔値段 -ws   
-// ✔取引高(過去24時間) -ws
-// ロングとショートの割合 -https
-// オーダーブック(depth chart) -ws
-// Large トレード記録(トレード履歴から絞る) -ws
-// ファンディングFunding -https/ws
-
 const WebSocket = require("ws");
 const ws = new WebSocket("wss://fstream.binance.com/ws");
 
-const server = new WebSocket.Server({ port: 5001});
+const server = new WebSocket.Server({ port: 5001, path:"/binance"});
 
 ws.on("open", () => {
     const message = JSON.stringify(
