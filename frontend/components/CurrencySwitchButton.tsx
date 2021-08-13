@@ -6,7 +6,8 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& > *': {
-      margin: theme.spacing(1),
+      marginTop: 20,
+      marginLeft: 20,
     },
   },
 }));
@@ -16,14 +17,24 @@ export default function ContainedButtons() {
 
   return (
     <div className={classes.root} color="inherit">
-      <Button variant="contained" disableElevation>
+      <Button 
+        onClick={() => {
+          window.location.href = "#bitcoin";
+        }}
+        variant="contained" disableElevation
+      >
         Bitcoin
       </Button>
       <Button variant="contained" disableElevation>
       Ethereum
       </Button>
-      <Button variant="contained" disableElevation>
-        aabbcc
+      <Button
+        onClick={() => {
+          window.location.href = "#AAAAAA";
+        }}
+        variant="contained" disableElevation
+      >
+        AAAAAA
       </Button>
       <Button variant="contained" disableElevation>
         ddeeffgg

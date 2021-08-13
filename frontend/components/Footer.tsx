@@ -1,4 +1,4 @@
-// メインページ ヘッダ(のちにHeader.tsxにする予定)
+// メインページ フッタ
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -28,15 +28,12 @@ export default function ButtonAppBar() {
     <div className={classes.root}>
       <AppBar position="static" color="inherit">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" className={classes.title}>
             CRYPTO DATA
           </Typography>
-          <Button>Home</Button>
-          <Button>Our API</Button>
           <Button>About</Button>
+          <Button>Developers</Button>
+          <Button>API DOC</Button>
         </Toolbar>
       </AppBar>
     </div>
