@@ -23,6 +23,7 @@ let newData = {
             "short":null
         }
     }
+    
 };
 setInterval(() => {
     request(http_endPoint + http_path, function (err, response, payload) {
