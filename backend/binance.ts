@@ -1,6 +1,7 @@
 export {}
 import WebSocket from "ws";
 import request from 'request';
+import { Coindata } from "./cointype";
 
 const ws = new WebSocket("wss://fstream.binance.com/ws");
 const http_endPoint = "https://fapi.binance.com";
@@ -11,19 +12,6 @@ const http_ratio = "/futures/data/topLongShortPositionRatio?symbol=BTCUSDT&perio
 const server = new WebSocket.Server({ port: 5001, path:"/binance"});
 
 let clients: WebSocket[] = [];
-
-interface Coindata {
-    "exchange":string
-    "pairName":string
-    "price":number
-    "quatity":number
-    "change":number
-    "funding":number
-    "ratio":{
-        "long":number
-        "short":number
-    }
-}
 
 let btcusdt:Coindata = {
     "exchange":"binance",

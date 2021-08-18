@@ -1,78 +1,110 @@
-export {}
+export {};
 import WebSocket from "ws";
-import request from 'request';
+import request from "request";
+import { Coindata } from "./cointype";
 
-const ws = new WebSocket("wss://stream.bybit.com/realtime_public")
+let pair: string;
 
-const server = new WebSocket.Server({ port: 5001, path:"/bybit"});
+const ws: WebSocket = new WebSocket("wss://stream.bybit.com/realtime_public");
+const http_endPoint = "https://api.bybit.com";
 
+const server: WebSocket.Server = new WebSocket.Server({
+  port: 5001,
+  path: "/bybit",
+});
 let clients: WebSocket[] = [];
-
-interface Coindata {
-    "exchange":string
-    "pairName":string
-    "price":number
-    "quatity":number
-    "change":number
-    "funding":number
-    "ratio":{
-        "long":number
-        "short":number
-    }
+function generateCoindata(pair: string): Coindata {
+  return {
+    exchange: "bybit",
+    pairName: pair,
+    price: 0,
+    quatity: 0,
+    change: 0,
+    funding: 0,
+    ratio: {
+      long: 0,
+      short: 0,
+    },
+  };
 }
 
-let btcusdt:Coindata = {
-    "exchange":"bybit",
-    "pairName":"btcusdt",
-    "price":0,
-    "quatity":0,
-    "change":0,
-    "funding":0,
-    "ratio":{
-        "long":0,
-        "short":0
-    }
+const pairs: { [key: string]: Coindata } = {
+  BTCUSDT: generateCoindata("BTCUSDT"),
+  ETHUSDT: generateCoindata("ETHUSDT"),
+  XRPUSDT: generateCoindata("XRPUSDT"),
 };
 
-ws.on("open", ()=>{
-    const message = JSON.stringify({
-        "op":"subscribe",
-        "args":["instrument_info.100ms.BTCUSDT"]
-    })
-    ws.send(message)
-})
+const coinNameHttp = ["BTCUSDT", "ETHUSDT", "XRPUSDT"];
 
-server.on('connection', (ws:WebSocket) => {
-    clients.push(ws);
-    console.log(clients.length);
+setInterval(() => {
+  for (let i = 0; i < coinNameHttp.length; i++) {
+    pair = coinNameHttp[i];
+    let http_ratio = `/v2/public/account-ratio?symbol=${pair}&period=5min`;
+    request(http_endPoint + http_ratio, (err, response, payload) => {
+      for (let j in pairs) {
+        if (j === JSON.parse(payload).result[0].symbol)
+          pairs[JSON.parse(payload).result[0].symbol].ratio.long =
+            JSON.parse(payload).result[0].buy_ratio;
+          pairs[JSON.parse(payload).result[0].symbol].ratio.short =
+            JSON.parse(payload).result[0].sell_ratio;
+      }
+    });
+  }
+}, 2000);
+
+ws.on("open", () => {
+  const message: string = JSON.stringify({
+    op: "subscribe",
+    args: [
+      "instrument_info.100ms.BTCUSDT",
+      "instrument_info.100ms.ETHUSDT",
+      "instrument_info.100ms.XRPUSDT",
+    ],
+  });
+  ws.send(message);
 });
 
-let temp = 0;
-let flag = 1;
-ws.on("message", (data:string) => {
-    let type = JSON.parse(data).type
-    if(type == 'snapshot'){
-        btcusdt["change"] = parseFloat(JSON.parse(data).data.price_24h_pcnt_e6) / 1000000;
-        btcusdt["price"] = JSON.parse(data).data.last_price_e4;
-    }
-    if(type == 'delta'){
-        if(JSON.parse(data).data.update[0].price_24h_pcnt_e6 !== undefined){
-            btcusdt["change"] = parseFloat(JSON.parse(data).data.update[0].price_24h_pcnt_e6) / 1000000;
-        }
-        let price = JSON.parse(data).data.update[0].index_price;
-        if(flag == 1){
-            temp = price;
-            flag = 0;
-        }
-        else{
-            if(Math.abs(price - temp) >= 1){
-                temp = price;
-                btcusdt["price"] = price;
-            }
-        }
-    }
-    for(let i = 0; i < clients.length; i++){
-        clients[i].send(JSON.stringify(btcusdt));
-    }
-})
+server.on("connection", (ws: WebSocket) => {
+  clients.push(ws);
+  console.log(clients.length);
+});
 
+ws.on("message", (data: string) => {
+  let type: string = JSON.parse(data).type;
+  if (type === "snapshot") {
+    for (let i in pairs) {
+      if (i === JSON.parse(data).data.symbol) {
+        const snapshot = JSON.parse(data).data;
+        pairs[JSON.parse(data).data.symbol].change =
+          parseFloat(snapshot.price_24h_pcnt_e6) / 1000000;
+        pairs[JSON.parse(data).data.symbol].price =
+          parseFloat(snapshot.last_price_e4) / 10000;
+        pairs[JSON.parse(data).data.symbol].quatity =
+          parseFloat(snapshot.turnover_24h_e8) / 100000000;
+        pairs[JSON.parse(data).data.symbol].funding =
+          parseFloat(snapshot.funding_rate_e6) / 10000;
+      }
+    }
+  }
+  if (type === "delta") {
+    for (let j in pairs) {
+      if (j === JSON.parse(data).data.update[0].symbol) {
+        const delta = JSON.parse(data).data.update[0];
+        pairs[delta.symbol].change =
+          parseFloat(delta.price_24h_pcnt_e6) / 1000000 ||
+          pairs[delta.symbol].change;
+        pairs[delta.symbol].quatity =
+          parseFloat(delta.turnover_24h_e8) / 100000000 ||
+          pairs[delta.symbol].quatity;
+        pairs[delta.symbol].price =
+          parseFloat(delta.last_price_e4) / 10000 || pairs[delta.symbol].price;
+        pairs[delta.symbol].funding =
+          parseFloat(delta.funding_rate_e6) / 1000000 ||
+          pairs[delta.symbol].funding;
+      }
+    }
+  }
+  for (let i = 0; i < clients.length; i++) {
+    clients[i].send(JSON.stringify(pairs));
+  }
+});
