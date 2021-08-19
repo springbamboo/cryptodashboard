@@ -1,4 +1,4 @@
-// メインページ
+// メインページああああ
 import React from 'react';
 import { useEffect, useState } from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
