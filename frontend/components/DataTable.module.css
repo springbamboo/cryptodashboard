@@ -1,0 +1,17 @@
+.root {
+  padding: 20px;
+}
+.table {
+  /* minWidth: 650px, */
+}
+.currency {
+  margin-bottom: 20px;
+}
+.currencyName {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #333333;
+}
