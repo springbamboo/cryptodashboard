@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import React from 'react'
 import { AppProps } from 'next/dist/next-server/lib/router/router'
-import { ThemeProvider } from '@material-ui/core'
+import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import theme from './theme'
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -12,7 +12,11 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     }
   }, [])
   return (
+    // テーマ設定
     <ThemeProvider theme={theme}>
+      {/* CSS初期化、この中に背景色指定が含まれる */}
+      <CssBaseline />
+      {/* 各ページの内容 */}
       <Component {...pageProps} />
     </ThemeProvider>
   )

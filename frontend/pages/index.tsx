@@ -6,11 +6,10 @@ import Header from '../components/Header'
 import CurrencySwitchButton from '../components/CurrencySwitchButton'
 import DataTable from '../components/DataTable'
 import Footer from '../components/Footer'
-import styles from './index.module.css';
 
 export default function Home() {
   return (
-    <div className={styles.background}>
+    <div>
         <div>
           <Header />
         </div>

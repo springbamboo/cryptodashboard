@@ -17,7 +17,7 @@ const data = [
   { year: '1990', population: 5.310 },
   { year: '2000', population: 6.127 },
   { year: '2010', population: 6.930 },
-]; 
+];
 
 export default class Demo extends React.PureComponent {
   constructor(props) {

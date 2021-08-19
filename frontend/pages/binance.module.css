@@ -1,10 +1,9 @@
-.background {
-    background-color: #555555;
-}
-
-
 .content {
     margin: 0 auto;
     padding: 20px 0;
     max-width: 1200px;
+}
+
+.paper {
+  padding: 8px
 }
