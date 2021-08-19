@@ -35,6 +35,7 @@ export default class Demo extends React.PureComponent {
       <Paper>
         <Chart
           data={chartData}
+          rotated
         >
           <ArgumentAxis />
           <ValueAxis max={7} />

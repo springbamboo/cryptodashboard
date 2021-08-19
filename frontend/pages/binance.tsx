@@ -3,21 +3,23 @@ import React from 'react';
 import { useEffect, useState } from 'react'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Header from '../components/Header'
-import CurrencySwitchButton from '../components/CurrencySwitchButton'
-import DataTable from '../components/DataTable'
 import Footer from '../components/Footer'
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
 import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import { makeStyles } from '@material-ui/core/styles';
 import OrderBook from '../components/OrderBook'
+import LargeTrades from '../components/LargeTrades'
+import styles from './binance.module.css';
 
 export default function Home() {
 
-    const useStyles = makeStyles({
-        background: {
-            backgroundColor: '#555555',
-        }
-    });
+    const useStyles = makeStyles((theme) => ({
+        paper: {
+            padding: theme.spacing(2),
+        },
+    }));
     const classes = useStyles();
 
     // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)'); // userがダークモードを使用しているかどうかをチェック
@@ -48,16 +50,39 @@ export default function Home() {
     // );
 
     return (
-        <div className={classes.background}>
+        <div className={styles.background}>
             <ThemeProvider theme={theme}>
                 <div>
-                    {/* <Header /> */}
+                    <Header />
                 </div>
                 <div>
-                    <OrderBook />
+                    <div className={styles.content}>
+                        <Grid container spacing={3}>
+                            <Grid item xs={6}>
+                                <Paper className={classes.paper}>
+                                    <OrderBook />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Paper className={classes.paper}>
+                                    <LargeTrades />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Paper className={classes.paper}>
+                                    <LargeTrades />
+                                </Paper>
+                            </Grid>
+                            <Grid item xs={6}>
+                                <Paper className={classes.paper}>
+                                    <LargeTrades />
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                    </div>
                 </div>
                 <div>
-                    {/* <Footer /> */}
+                    <Footer />
                 </div>
             </ThemeProvider>
         </div>
