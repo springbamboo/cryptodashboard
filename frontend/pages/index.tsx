@@ -8,16 +8,9 @@ import DataTable from '../components/DataTable'
 import Footer from '../components/Footer'
 import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
-import { makeStyles } from '@material-ui/core/styles';
+import styles from './index.module.css';
 
 export default function Home() {
-
-  const useStyles = makeStyles({
-    background: {
-      backgroundColor: '#555555',
-    }
-  });
-  const classes = useStyles();
 
   // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: light)'); // userがダークモードを使用しているかどうかをチェック
   // const theme = React.useMemo(
@@ -47,7 +40,7 @@ export default function Home() {
   // );
 
   return (
-    <div className={classes.background}>
+    <div className={styles.background}>
       <ThemeProvider theme={theme}>
         <div>
           <Header />
