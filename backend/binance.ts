@@ -1,81 +1,81 @@
-export {}
+export {};
 import WebSocket from "ws";
-import request from 'request';
+import request from "request";
 import { Coindata } from "./cointype";
+import { generateCoindata } from "./generatecoindata";
 
-const ws = new WebSocket("wss://fstream.binance.com/ws");
+const exchange: string = "binance";
+let pair:string;
+
+const ws: WebSocket = new WebSocket("wss://fstream.binance.com/ws");
 const http_endPoint = "https://fapi.binance.com";
-const http_path = "/fapi/v1/premiumIndex?symbol=BTCUSDT";
-const http_ratio = "/futures/data/topLongShortPositionRatio?symbol=BTCUSDT&period=5m&limit=1";
 
+const server = new WebSocket.Server({ port: 5001, path: "/binance" });
 
-const server = new WebSocket.Server({ port: 5001, path:"/binance"});
+const coinNameHttp = ["BTCUSDT", "ETHUSDT", "XRPUSDT"]
 
 let clients: WebSocket[] = [];
 
-let btcusdt:Coindata = {
-    "exchange":"binance",
-    "pairName":"btcusdt",
-    "price":0,
-    "quatity":0,
-    "change":0,
-    "funding":0,
-    "ratio":{
-        "long":0,
-        "short":0
-    }
+const pairs: { [key: string]: Coindata } = {
+  BTCUSDT: generateCoindata("BTCUSDT", exchange),
+  ETHUSDT: generateCoindata("ETHUSDT", exchange),
+  XRPUSDT: generateCoindata("XRPUSDT", exchange),
 };
-setInterval(() => {
-    request(http_endPoint + http_path, function (err, response, payload) {
-        btcusdt["funding"] = JSON.parse(payload).interestRate
-    }); 
-},10000);
 
 setInterval(() => {
+  for(let i = 0; i < coinNameHttp.length; i++){
+    pair = coinNameHttp[i];
+    let http_ratio =
+    `/futures/data/topLongShortPositionRatio?symbol=${pair}&period=5m&limit=1`;
     request(http_endPoint + http_ratio, function(err, response, payload) {
-        btcusdt["ratio"]["long"] = JSON.parse(payload)[0].longAccount
-        btcusdt["ratio"]["short"] = JSON.parse(payload)[0].shortAccount
+        pairs[JSON.parse(payload)[0].symbol].ratio.long = JSON.parse(payload)[0].longAccount;
+        pairs[JSON.parse(payload)[0].symbol].ratio.short = JSON.parse(payload)[0].shortAccount;
     });
-}, 10000)
+  }
+}, 5000)
 
 ws.on("open", () => {
-    const message = JSON.stringify(
-    {
-        "method": "SUBSCRIBE",
-        "params":
-        [
-            "btcusdt@ticker",
-            "btcusdt@aggTrade",
-            "btcusdt@forceOrder",
-        ],
-        "id": 1
-    });
-    ws.send(message);
+  const message = JSON.stringify({
+    method: "SUBSCRIBE",
+    params: [
+      "btcusdt@ticker",
+      "ethusdt@ticker",
+      "xrpusdt@ticker",
+      "btcusdt@markPrice",
+      "ethusdt@markPrice",
+      "xrpusdt@markPrice",
+    ],
+    id: 1,
+  });
+  ws.send(message);
 });
 
-server.on('connection', (ws:WebSocket) => {
-    clients.push(ws);
-    console.log(clients.length);
+server.on("connection", (ws: WebSocket) => {
+  clients.push(ws);
+  console.log(clients.length);
 });
 
 ws.on("message", (data: string) => {
-    const binanceData = JSON.parse(data);
-    if(binanceData.e == "aggTrade"){
-        btcusdt["price"] = binanceData.p;
+  if (JSON.parse(data).e === "24hrTicker") {
+    const pairName = JSON.parse(data).s;
+    for (let i in pairs) {
+      if (i === pairName) {
+        pairs[pairName].price = JSON.parse(data).c;
+        pairs[pairName].change = JSON.parse(data).P;
+        pairs[pairName].quatity = JSON.parse(data).q;
+      }
+    }
+  }
+  if (JSON.parse(data).e === "markPriceUpdate") {
+    for (let j in pairs) {
+      if (j === JSON.parse(data).s) {
+        pairs[j].funding = JSON.parse(data).r;
+        // console.log(j,pairs[j].funding)
+      }
+    }
+  }
 
-    }
-    if(binanceData.e == "24hrTicker"){
-        btcusdt["quatity"] = binanceData.q;
-        btcusdt["change"] = binanceData.P;
-    }
-    for(let i = 0; i < clients.length; i++){
-        clients[i].send(JSON.stringify(btcusdt));
-    }
+  for (let i = 0; i < clients.length; i++) {
+    clients[i].send(JSON.stringify(pairs));
+  }
 });
-
-
-
-
-
-
-

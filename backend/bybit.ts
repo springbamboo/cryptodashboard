@@ -2,8 +2,10 @@ export {};
 import WebSocket from "ws";
 import request from "request";
 import { Coindata } from "./cointype";
+import {generateCoindata} from "./generatecoindata"
 
 let pair: string;
+const exchange:string = "bybit"
 
 const ws: WebSocket = new WebSocket("wss://stream.bybit.com/realtime_public");
 const http_endPoint = "https://api.bybit.com";
@@ -13,25 +15,11 @@ const server: WebSocket.Server = new WebSocket.Server({
   path: "/bybit",
 });
 let clients: WebSocket[] = [];
-function generateCoindata(pair: string): Coindata {
-  return {
-    exchange: "bybit",
-    pairName: pair,
-    price: 0,
-    quatity: 0,
-    change: 0,
-    funding: 0,
-    ratio: {
-      long: 0,
-      short: 0,
-    },
-  };
-}
 
 const pairs: { [key: string]: Coindata } = {
-  BTCUSDT: generateCoindata("BTCUSDT"),
-  ETHUSDT: generateCoindata("ETHUSDT"),
-  XRPUSDT: generateCoindata("XRPUSDT"),
+  BTCUSDT: generateCoindata("BTCUSDT", exchange),
+  ETHUSDT: generateCoindata("ETHUSDT", exchange),
+  XRPUSDT: generateCoindata("XRPUSDT", exchange),
 };
 
 const coinNameHttp = ["BTCUSDT", "ETHUSDT", "XRPUSDT"];
@@ -43,6 +31,7 @@ setInterval(() => {
     request(http_endPoint + http_ratio, (err, response, payload) => {
       for (let j in pairs) {
         if (j === JSON.parse(payload).result[0].symbol)
+        // console.log(JSON.parse(payload).result[0])
           pairs[JSON.parse(payload).result[0].symbol].ratio.long =
             JSON.parse(payload).result[0].buy_ratio;
           pairs[JSON.parse(payload).result[0].symbol].ratio.short =
