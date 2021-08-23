@@ -7,7 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import useWsService from '../services/front_back_socket';
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import styles from './DataTable.module.css'
 
 interface Coindata {
@@ -23,48 +23,52 @@ interface Coindata {
   }
 }
 
+type CellStyle = 'default' | 'negative' | 'positive'
+
+interface CellStyles {
+  price: CellStyle
+  long: CellStyle
+  short: CellStyle
+  funding: CellStyle
+  hVolume: CellStyle
+  hChanged: CellStyle
+}
+
 export default function BasicTable() {
-let pairs:{[key:string]:Coindata} = {
-    "BTCUSDT":{
-      "exchange":"0",
-      "pairName":"0",
-      "price":0,
-      "quatity":0,
-      "change":0,
-      "funding":0,
-      "ratio":{
-          "long":0,
-          "short":0
-      } 
-    },
-    "ETHUSDT":{
-      "exchange":"0",
-      "pairName":"0",
-      "price":0,
-      "quatity":0,
-      "change":0,
-      "funding":0,
-      "ratio":{
-          "long":0,
-          "short":0
-      },
-    },
-    "XRPUSDT":{
-      "exchange":"0",
-      "pairName":"0",
-      "price":0,
-      "quatity":0,
-      "change":0,
-      "funding":0,
-      "ratio":{
-          "long":0,
-          "short":0
-      },
+  function createDefaultCellStyle(): CellStyles {
+    return {
+      price: 'default',
+      long: 'default',
+      short: 'default',
+      funding: 'negative',
+      hChanged: 'default',
+      hVolume: 'positive',
     }
+  }
+  function createDefaultCoinData(): Coindata {
+    return {
+      exchange: "",
+      pairName: "",
+      price: 0,
+      quatity: 0,
+      change: 0,
+      funding: 0,
+      ratio: {
+          long:0,
+          short:0
+      }
+    }
+  }
+
+  const defaultData :{[key:string]:Coindata} = {
+    BTCUSDT: createDefaultCoinData(),
+    ETHUSDT: createDefaultCoinData(),
+    XRPUSDT: createDefaultCoinData(),
   };
 
-  const [data, setData] = useState(pairs)
-  useWsService(setData)
+  const [data, setData] = useState(defaultData)
+  const prevDataRef = useRef(data);
+
   function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ) {
     return { Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged };
   }
@@ -89,11 +93,20 @@ let pairs:{[key:string]:Coindata} = {
     createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   ];
-  
+  const cellStylesBtc: CellStyles[] = [
+    createDefaultCellStyle(),
+    createDefaultCellStyle(),
+    createDefaultCellStyle(),
+    createDefaultCellStyle(),
+  ]
+  useEffect(() => {
+    prevDataRef.current = data;
+  }, [data]);
+  useWsService(setData)
 
   return (
     <div className={styles.root}>
-      
+
     <TableContainer className={styles.currency} component={Paper}>
       <div className={styles.currencyName} id='bitcoin'>BITCOIN</div>
       <Table className={styles.table} aria-label="simple table">
@@ -119,12 +132,12 @@ let pairs:{[key:string]:Coindata} = {
               </TableCell>
               <TableCell align="left">{row.Exchange}</TableCell>
               <TableCell align="left">{row.Pair}</TableCell>
-              <TableCell align="left">{row.Price}</TableCell>
-              <TableCell align="left">{row.Long}</TableCell>
-              <TableCell align="left">{row.Short}</TableCell>
-              <TableCell align="left">{row.Funding}</TableCell>
-              <TableCell align="left">{row.HVolume}</TableCell>
-              <TableCell align="left">{row.HChanged}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc[i].price]}>{row.Price}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc[i].long]}>{row.Long}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc[i].short]}>{row.Short}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc[i].funding]}>{row.Funding}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc[i].hVolume]}>{row.HVolume}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc[i].hChanged]}>{row.HChanged}</TableCell>
             </TableRow>
           ))}
         </TableBody>
