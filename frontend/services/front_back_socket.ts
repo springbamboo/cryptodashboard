@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-const WS_URL = 'ws://localhost:5001'
+const WS_URL = 'ws://localhost:5001/home'
 
 export default function useWsService(setPrice) {
   const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null))
@@ -11,8 +11,7 @@ export default function useWsService(setPrice) {
         console.log('open')
       })
       socket.addEventListener('message', (e) => {
-        // setWsData(setPrice);
-        // console.log(JSON.parse(e.data).BTCUSDT_p)
+        console.log(JSON.parse(e.data).BTCUSDT_p)
         setPrice(JSON.parse(e.data).BTCUSDT_p)
       })
       socket.addEventListener('close', (e) => {

@@ -26,7 +26,7 @@ export default function ContainedButtons() {
         Bitcoin
       </Button>
       <Button variant="contained" disableElevation>
-      Ethereum
+       Ethereum
       </Button>
       <Button
         onClick={() => {
@@ -34,7 +34,7 @@ export default function ContainedButtons() {
         }}
         variant="contained" disableElevation
       >
-        AAAAAA
+        Ripple
       </Button>
       <Button variant="contained" disableElevation>
         ddeeffgg

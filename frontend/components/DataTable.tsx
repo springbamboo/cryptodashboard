@@ -24,6 +24,7 @@ export default function BasicTable() {
     createData('3', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('4', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   ];
+
   return (
     <div className={styles.root}>
     <TableContainer className={styles.currency} component={Paper}>
@@ -101,7 +102,7 @@ export default function BasicTable() {
     </TableContainer>
 
     <TableContainer className={styles.currency} component={Paper}>
-      <div className={styles.currencyName} id='AAAAAA'>AAAAAA</div>
+      <div className={styles.currencyName} id='ripple'>RIPPLE</div>
       <Table className={styles.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -139,3 +140,4 @@ export default function BasicTable() {
     </div>
   );
 }
+
