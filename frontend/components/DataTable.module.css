@@ -17,10 +17,12 @@
 }
 
 .currency .negative {
-  color: red;
+  color: #ff0088;
+  background-color: #88004488;
 }
 .currency .positive {
-  color: green;
+  color: #00ff00;
+  background-color: #00880088;
 }
 .currency .default {
   color: unset;
