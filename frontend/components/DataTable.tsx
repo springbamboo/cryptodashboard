@@ -10,20 +10,72 @@ import useWsService from '../services/front_back_socket';
 import { useState, useEffect } from 'react'
 import styles from './DataTable.module.css'
 
-export default function BasicTable() {
-  const [price, setPrice] = useState(0)
-  useWsService(setPrice)
+interface Coindata {
+  "exchange":string
+  "pairName":string
+  "price":number
+  "quatity":number
+  "change":number
+  "funding":number
+  "ratio":{
+      "long":number
+      "short":number
+  }
+}
 
+export default function BasicTable() {
+let pairs:{[key:string]:Coindata} = {
+    "BTCUSDT":{
+      "exchange":"0",
+      "pairName":"0",
+      "price":0,
+      "quatity":0,
+      "change":0,
+      "funding":0,
+      "ratio":{
+          "long":0,
+          "short":0
+      } 
+    },
+    "ETHUSDT":{
+      "exchange":"0",
+      "pairName":"0",
+      "price":0,
+      "quatity":0,
+      "change":0,
+      "funding":0,
+      "ratio":{
+          "long":0,
+          "short":0
+      },
+    },
+    "XRPUSDT":{
+      "exchange":"0",
+      "pairName":"0",
+      "price":0,
+      "quatity":0,
+      "change":0,
+      "funding":0,
+      "ratio":{
+          "long":0,
+          "short":0
+      },
+    }
+  };
+
+  const [price, setPrice] = useState(pairs)
+  useWsService(setPrice)
   function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ) {
     return { Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged };
   }
 
   const rows = [
-    createData('1', 'Binance', 'BTCSUDT',price, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-    createData('2', 'Bybit', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-    createData('3', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
-    createData('4', 'Ftx', 'BTCSUDT', 37411.25, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('1', 'Binance', 'BTCUSDT',price.BTCUSDT.price, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   ];
+  
 
   return (
     <div className={styles.root}>
