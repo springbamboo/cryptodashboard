@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 
 const WS_URL = 'ws://localhost:5001/home'
 
-export default function useWsService(setPrice) {
+export default function useWsService(setData) {
   const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null));
   useEffect(() => {
     if (typeof WebSocket !== 'undefined') {
@@ -10,7 +10,7 @@ export default function useWsService(setPrice) {
         console.log('open')
       })
       socket.addEventListener('message', (e) => {
-        setPrice(JSON.parse(e.data))
+        setData(JSON.parse(e.data))
       })
       socket.addEventListener('close', (e) => {
         console.log('close')
@@ -21,7 +21,7 @@ export default function useWsService(setPrice) {
         console.log(e)
       })
     }
-  })
+  },[])
   // return wsdata;
 }
 

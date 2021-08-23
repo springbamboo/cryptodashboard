@@ -21,6 +21,7 @@ const pairs: { [key: string]: Coindata } = {
     BTCUSDT: generateCoindata("BTCUSDT", exchange),
     ETHUSDT: generateCoindata("ETHUSDT", exchange),
     XRPUSDT: generateCoindata("XRPUSDT", exchange),
+    
 };
 
 setInterval(() => {

@@ -63,14 +63,28 @@ let pairs:{[key:string]:Coindata} = {
     }
   };
 
-  const [price, setPrice] = useState(pairs)
-  useWsService(setPrice)
+  const [data, setData] = useState(pairs)
+  useWsService(setData)
   function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ) {
     return { Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged };
   }
 
-  const rows = [
-    createData('1', 'Binance', 'BTCUSDT',price.BTCUSDT.price, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+  const rowsBtc = [
+    createData('1', 'Binance', data.BTCUSDT.pairName, data.BTCUSDT.price, data.BTCUSDT.ratio.long, data.BTCUSDT.ratio.short, data.BTCUSDT.funding, data.BTCUSDT.quatity, data.BTCUSDT.change),
+    createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+  ];
+
+  const rowsEth = [
+    createData('1', 'Binance', data.ETHUSDT.pairName, data.ETHUSDT.price, data.ETHUSDT.ratio.long, data.ETHUSDT.ratio.short, data.ETHUSDT.funding, data.ETHUSDT.quatity, data.ETHUSDT.change),
+    createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+    createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
+  ];
+
+  const rowsXrp = [
+    createData('1', 'Binance', data.XRPUSDT.pairName, data.XRPUSDT.price, data.XRPUSDT.ratio.long, data.XRPUSDT.ratio.short, data.XRPUSDT.funding, data.XRPUSDT.quatity, data.XRPUSDT.change),
     createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
@@ -79,6 +93,7 @@ let pairs:{[key:string]:Coindata} = {
 
   return (
     <div className={styles.root}>
+      
     <TableContainer className={styles.currency} component={Paper}>
       <div className={styles.currencyName} id='bitcoin'>BITCOIN</div>
       <Table className={styles.table} aria-label="simple table">
@@ -97,7 +112,7 @@ let pairs:{[key:string]:Coindata} = {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row,i) => (
+          {rowsBtc.map((row,i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
                 {row.Rank}
@@ -134,7 +149,7 @@ let pairs:{[key:string]:Coindata} = {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row,i) => (
+          {rowsEth.map((row,i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
                 {row.Rank}
@@ -171,7 +186,7 @@ let pairs:{[key:string]:Coindata} = {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row,i) => (
+          {rowsXrp.map((row,i) => (
             <TableRow key={i}>
               <TableCell component="th" scope="row">
                 {row.Rank}
