@@ -56,13 +56,13 @@ export default function BasicTable() {
     return {
       exchange: "",
       pairName: "",
-      price: 0,
-      quatity: 0,
-      change: 0,
-      funding: 0,
+      price: null,
+      quatity: null,
+      change: null,
+      funding: null,
       ratio: {
-          long:0,
-          short:0
+          long: null,
+          short: null
       }
     }
   }
@@ -78,12 +78,12 @@ export default function BasicTable() {
       Rank: rank.toString(),
       Exchange: coinData.exchange,
       Pair: coinData.pairName,
-      Price: coinData.price.toString(),
-      Long: (coinData.ratio.long * 100).toFixed(4) + '%',
-      Short: (coinData.ratio.short * 100).toFixed(4) + '%',
-      Funding: coinData.funding * 100 + '%',
-      HVolume: millify(coinData.quatity, {precision: 2}),
-      HChanged: millify(coinData.change, {precision: 2})
+      Price: coinData.price !== null ? coinData.price.toString() : '',
+      Long: coinData.ratio.long !== null ? (coinData.ratio.long * 100).toFixed(4) + '%' : '' ,
+      Short: coinData.ratio.short !== null ? (coinData.ratio.short * 100).toFixed(4) + '%' : '',
+      Funding: coinData.funding !== null ? (coinData.funding * 100).toFixed(4) + '%' : '',
+      HVolume: coinData.quatity !== null ? millify(coinData.quatity, {precision: 2}) : '',
+      HChanged: coinData.change !== null ? millify(coinData.change, {precision: 2}) : ''
     };
   }
 
@@ -97,9 +97,9 @@ export default function BasicTable() {
       price: 'default',
       long: 'default',
       short: 'default',
-      funding: 'negative',
+      funding: 'default',
       hChanged: 'default',
-      hVolume: 'positive',
+      hVolume: 'default',
     }
   }
 
@@ -130,13 +130,28 @@ export default function BasicTable() {
   ];
 
   // セル書式
-  const cellStylesBtc: CellStyles[] = [
+  const cellStylesBtc = useRef<CellStyles[]>([
     createDefaultCellStyle(),
     createDefaultCellStyle(),
     createDefaultCellStyle(),
     createDefaultCellStyle(),
-  ]
+  ])
   useEffect(() => {
+    // とりあえずBinance + BTCUSDTだけ対応
+    for (let i = 0; i < 1; i++) {
+      const now = data.BTCUSDT;
+      const prev = prevDataRef.current.BTCUSDT;
+      if (now.price !== prev.price && prev.price != null) {
+        cellStylesBtc.current[i].price = now.price > prev.price ? 'positive' : 'negative';
+      }
+      if (now.ratio.long !== prev.ratio.long && prev.ratio.long != null) {
+        cellStylesBtc.current[i].long = now.ratio.long > prev.ratio.long ? 'positive' : 'negative';
+      }
+      if (now.ratio.short !== prev.ratio.short && prev.ratio.short != null) {
+        cellStylesBtc.current[i].short = now.ratio.short > prev.ratio.short ? 'positive' : 'negative';
+      }
+      cellStylesBtc.current[i].hChanged = now.change > 0 ? 'positive' : 'negative';
+    }
     prevDataRef.current = data;
   }, [data]);
   useWsService(setData)
@@ -169,12 +184,12 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="left">{row.Exchange}</TableCell>
               <TableCell align="left">{row.Pair}</TableCell>
-              <TableCell align="left" className={styles[cellStylesBtc[i].price]}>{row.Price}</TableCell>
-              <TableCell align="left" className={styles[cellStylesBtc[i].long]}>{row.Long}</TableCell>
-              <TableCell align="left" className={styles[cellStylesBtc[i].short]}>{row.Short}</TableCell>
-              <TableCell align="left" className={styles[cellStylesBtc[i].funding]}>{row.Funding}</TableCell>
-              <TableCell align="left" className={styles[cellStylesBtc[i].hVolume]}>{row.HVolume}</TableCell>
-              <TableCell align="left" className={styles[cellStylesBtc[i].hChanged]}>{row.HChanged}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc.current[i].price]}>{row.Price}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc.current[i].long]}>{row.Long}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc.current[i].short]}>{row.Short}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc.current[i].funding]}>{row.Funding}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc.current[i].hVolume]}>{row.HVolume}</TableCell>
+              <TableCell align="left" className={styles[cellStylesBtc.current[i].hChanged]}>{row.HChanged}</TableCell>
             </TableRow>
           ))}
         </TableBody>
