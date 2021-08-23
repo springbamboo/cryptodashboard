@@ -9,20 +9,36 @@ import Paper from '@material-ui/core/Paper';
 import useWsService from '../services/front_back_socket';
 import { useState, useEffect, useRef } from 'react'
 import styles from './DataTable.module.css'
+import millify from 'millify'
 
+//サーバーから渡されるデータ
 interface Coindata {
-  "exchange":string
-  "pairName":string
-  "price":number
-  "quatity":number
-  "change":number
-  "funding":number
-  "ratio":{
-      "long":number
-      "short":number
+  exchange: string
+  pairName: string
+  price: number
+  quatity: number
+  change: number
+  funding: number
+  ratio: {
+      long: number
+      short: number
   }
 }
 
+// 表示用データ
+interface RowData {
+  Rank: string
+  Exchange:string
+  Pair:string
+  Price:string
+  Long:string
+  Short:string
+  Funding:string
+  HVolume:string
+  HChanged: string
+}
+
+// セル書式
 type CellStyle = 'default' | 'negative' | 'positive'
 
 interface CellStyles {
@@ -35,16 +51,7 @@ interface CellStyles {
 }
 
 export default function BasicTable() {
-  function createDefaultCellStyle(): CellStyles {
-    return {
-      price: 'default',
-      long: 'default',
-      short: 'default',
-      funding: 'negative',
-      hChanged: 'default',
-      hVolume: 'positive',
-    }
-  }
+  // サーバーからのデータ初期化
   function createDefaultCoinData(): Coindata {
     return {
       exchange: "",
@@ -59,40 +66,70 @@ export default function BasicTable() {
       }
     }
   }
-
-  const defaultData :{[key:string]:Coindata} = {
+  const defaultCoinData: {[key:string]:Coindata} = {
     BTCUSDT: createDefaultCoinData(),
     ETHUSDT: createDefaultCoinData(),
     XRPUSDT: createDefaultCoinData(),
   };
 
-  const [data, setData] = useState(defaultData)
-  const prevDataRef = useRef(data);
+  // サーバーから渡されたデータを、表示用データに整形
+  function getRowData(rank: number, coinData: Coindata): RowData {
+    return {
+      Rank: rank.toString(),
+      Exchange: coinData.exchange,
+      Pair: coinData.pairName,
+      Price: coinData.price.toString(),
+      Long: (coinData.ratio.long * 100).toFixed(4) + '%',
+      Short: (coinData.ratio.short * 100).toFixed(4) + '%',
+      Funding: coinData.funding * 100 + '%',
+      HVolume: millify(coinData.quatity, {precision: 2}),
+      HChanged: millify(coinData.change, {precision: 2})
+    };
+  }
 
-  function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ) {
+  function createData(Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged ): RowData {
     return { Rank, Exchange, Pair, Price, Long, Short, Funding, HVolume, HChanged };
   }
 
+  // セル書式初期化
+  function createDefaultCellStyle(): CellStyles {
+    return {
+      price: 'default',
+      long: 'default',
+      short: 'default',
+      funding: 'negative',
+      hChanged: 'default',
+      hVolume: 'positive',
+    }
+  }
+
+  // サーバーからのデータ
+  const [data, setData] = useState(defaultCoinData)
+  const prevDataRef = useRef(data);
+
+  // 表示用データ
   const rowsBtc = [
-    createData('1', 'Binance', data.BTCUSDT.pairName, data.BTCUSDT.price, data.BTCUSDT.ratio.long, data.BTCUSDT.ratio.short, data.BTCUSDT.funding, data.BTCUSDT.quatity, data.BTCUSDT.change),
+    getRowData(1, data.BTCUSDT),
     createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   ];
 
   const rowsEth = [
-    createData('1', 'Binance', data.ETHUSDT.pairName, data.ETHUSDT.price, data.ETHUSDT.ratio.long, data.ETHUSDT.ratio.short, data.ETHUSDT.funding, data.ETHUSDT.quatity, data.ETHUSDT.change),
+    getRowData(1, data.ETHUSDT),
     createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   ];
 
   const rowsXrp = [
-    createData('1', 'Binance', data.XRPUSDT.pairName, data.XRPUSDT.price, data.XRPUSDT.ratio.long, data.XRPUSDT.ratio.short, data.XRPUSDT.funding, data.XRPUSDT.quatity, data.XRPUSDT.change),
+    getRowData(1, data.XRPUSDT),
     createData('2', 'Bybit', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('3', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
     createData('4', 'Ftx', 'BTCUSDT', 0, '48%', '51%', '0.01%', '21.437B', '-5.27%' ),
   ];
+
+  // セル書式
   const cellStylesBtc: CellStyles[] = [
     createDefaultCellStyle(),
     createDefaultCellStyle(),
