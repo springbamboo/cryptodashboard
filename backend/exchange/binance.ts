@@ -80,9 +80,3 @@ ws.on("message", (data: string) => {
     // }
     eventEmitter.emit("change", pairs);
 });
-
-
-
-
-
-
