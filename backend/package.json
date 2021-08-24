@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "startServer": "ts-node exchange/controll.ts"
+    "start": "ts-node exchange/controll.ts",
+    "format": "npx prettier --write './**/*.{js,ts}'"
   },
   "keywords": [],
   "author": "",
