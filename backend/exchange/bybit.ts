@@ -3,6 +3,8 @@ import WebSocket from "ws";
 import request from "request";
 import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
+import { EventEmitter } from "stream";
+export const bybitEvent = new EventEmitter();
 
 let pair: string;
 const exchange: string = "bybit";
@@ -10,11 +12,11 @@ const exchange: string = "bybit";
 const ws: WebSocket = new WebSocket("wss://stream.bybit.com/realtime_public");
 const http_endPoint = "https://api.bybit.com";
 
-const server: WebSocket.Server = new WebSocket.Server({
-    port: 5001,
-    path: "/bybit",
-});
-let clients: WebSocket[] = [];
+// const server: WebSocket.Server = new WebSocket.Server({
+//     port: 5001,
+//     path: "/bybit",
+// });
+// let clients: WebSocket[] = [];
 
 const pairs: { [key: string]: Coindata } = {
     BTCUSDT: generateCoindata("BTCUSDT", exchange),
@@ -53,10 +55,10 @@ ws.on("open", () => {
     ws.send(message);
 });
 
-server.on("connection", (ws: WebSocket) => {
-    clients.push(ws);
-    console.log(clients.length);
-});
+// server.on("connection", (ws: WebSocket) => {
+//     clients.push(ws);
+//     console.log(clients.length);
+// });
 
 ws.on("message", (data: string) => {
     let type: string = JSON.parse(data).type;
@@ -94,7 +96,8 @@ ws.on("message", (data: string) => {
             }
         }
     }
-    for (let i = 0; i < clients.length; i++) {
-        clients[i].send(JSON.stringify(pairs));
-    }
+    // for (let i = 0; i < clients.length; i++) {
+    //     clients[i].send(JSON.stringify(pairs));
+    // }
+    bybitEvent.emit("change", pairs);
 });

@@ -1,6 +1,7 @@
-import { eventEmitter } from "./binance";
 import { Coindata } from "./cointype";
 import WebSocket from "ws";
+import { binanceEvent } from "./binance";
+import { bybitEvent } from "./bybit";
 
 const server = new WebSocket.Server({ port: 5001, path: "/home" });
 
@@ -11,7 +12,13 @@ server.on("connection", (ws: WebSocket) => {
     console.log(clients.length);
 });
 
-eventEmitter.on("change", (pairs: { [key: string]: Coindata }) => {
+bybitEvent.on("change", (pairs: { [key: string]: Coindata }) => {
+    for (let i = 0; i < clients.length; i++) {
+        clients[i].send(JSON.stringify(pairs));
+    }
+});
+
+binanceEvent.on("change", (pairs: { [key: string]: Coindata }) => {
     for (let i = 0; i < clients.length; i++) {
         clients[i].send(JSON.stringify(pairs));
     }

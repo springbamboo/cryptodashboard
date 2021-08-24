@@ -154,6 +154,7 @@ export default function BasicTable() {
     }
     prevDataRef.current = data;
   }, [data]);
+  
   useWsService(setData)
 
   return (

@@ -4,7 +4,7 @@ import request from "request";
 import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import EventEmitter from "events";
-export const eventEmitter = new EventEmitter();
+export const binanceEvent = new EventEmitter();
 
 const exchange: string = "binance";
 let pair: string;
@@ -21,7 +21,6 @@ const pairs: { [key: string]: Coindata } = {
     BTCUSDT: generateCoindata("BTCUSDT", exchange),
     ETHUSDT: generateCoindata("ETHUSDT", exchange),
     XRPUSDT: generateCoindata("XRPUSDT", exchange),
-    
 };
 
 setInterval(() => {
@@ -79,5 +78,5 @@ ws.on("message", (data: string) => {
     // for (let i = 0; i < clients.length; i++) {
     //     clients[i].send(JSON.stringify(pairs));
     // }
-    eventEmitter.emit("change", pairs);
+    binanceEvent.emit("change", pairs);
 });
