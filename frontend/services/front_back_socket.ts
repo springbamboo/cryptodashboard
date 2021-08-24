@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react';
 
 const WS_URL = 'ws://localhost:5001/home'
+const socket = typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null
 
 export default function useWsService(setData) {
-  const [socket, _] = useState(() => (typeof WebSocket !== 'undefined' ? new WebSocket(WS_URL) : null));
   useEffect(() => {
     if (typeof WebSocket !== 'undefined') {
       socket.addEventListener('open', (e) => {
@@ -21,7 +21,7 @@ export default function useWsService(setData) {
         console.log(e)
       })
     }
-  },[])
+  }, [])
   // return wsdata;
 }
 
