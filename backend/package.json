@@ -4,7 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< Updated upstream
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "start": "ts-node exchange/controll.ts",
+    "format": "npx prettier --write './**/*.{js,ts}'"
+>>>>>>> Stashed changes
   },
   "keywords": [],
   "author": "",
