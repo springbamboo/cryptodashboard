@@ -46,7 +46,6 @@ server.on("connection", (ws) => {
 ws.on("open", () => {
     const message: string = JSON.stringify({
         op: "subscribe",
-<<<<<<< HEAD
         args: [
             "spot/ticker:BTC-USDT",
             "spot/ticker:ETH-USDT",
@@ -55,16 +54,12 @@ ws.on("open", () => {
             "swap/funding_rate:ETH-USDT-SWAP",
             "swap/funding_rate:XRP-USDT-SWAP",
         ],
-=======
-        args: ["spot/ticker:BTC-USDT"],
->>>>>>> a2f62a1699544112cc9a696546cb1b71d793ffeb
     });
     ws.send(message);
 });
 
 ws.on("message", (data: Buffer) => {
     const payload = pako.inflateRaw(data, { to: "string" });
-<<<<<<< HEAD
     const jsonData = JSON.parse(payload);
     // console.log(jsonData);
     if (jsonData.table === "spot/ticker") {
@@ -98,7 +93,5 @@ ws.on("message", (data: Buffer) => {
     for(let i = 0; i < clients.length; i++){
         clients[i].send(JSON.stringify(pairs));
     }
-=======
     console.log(JSON.parse(payload));
->>>>>>> a2f62a1699544112cc9a696546cb1b71d793ffeb
 });
