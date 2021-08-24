@@ -1,25 +1,25 @@
 // メインページ
-import React from 'react';
-import { useEffect, useState } from 'react'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Header from '../components/Header'
-import CurrencySwitchButton from '../components/CurrencySwitchButton'
-import DataTable from '../components/DataTable'
-import Footer from '../components/Footer'
+import React from "react";
+import { useEffect, useState } from "react";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Header from "../components/Header";
+import CurrencySwitchButton from "../components/CurrencySwitchButton";
+import DataTable from "../components/DataTable";
+import Footer from "../components/Footer";
 
 export default function Home() {
-  return (
-    <div>
+    return (
         <div>
-          <Header />
+            <div>
+                <Header />
+            </div>
+            <div>
+                <CurrencySwitchButton />
+                <DataTable />
+            </div>
+            <div>
+                <Footer />
+            </div>
         </div>
-        <div>
-          <CurrencySwitchButton />
-          <DataTable />
-        </div>
-        <div>
-          <Footer />
-        </div>
-    </div>
-  )
+    );
 }

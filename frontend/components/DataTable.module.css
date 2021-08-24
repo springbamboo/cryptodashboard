@@ -1,29 +1,29 @@
 .root {
-  padding: 20px;
+    padding: 20px;
 }
 .table {
-  /* minWidth: 650px, */
+    /* minWidth: 650px, */
 }
 .currency {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .currencyName {
-  text-align: center;
-  font-size: 18px;
-  font-weight: bold;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background-color: #333333;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #333333;
 }
 
 .currency .negative {
-  color: #ff0088;
-  background-color: #88004488;
+    color: #ff0088;
+    background-color: #88004488;
 }
 .currency .positive {
-  color: #00ff00;
-  background-color: #00880088;
+    color: #00ff00;
+    background-color: #00880088;
 }
 .currency .default {
-  color: unset;
+    color: unset;
 }
