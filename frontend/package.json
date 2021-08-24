@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "npx prettier --write './**/*.{js,ts,jsx,tsx}'"
   },
   "dependencies": {
     "@devexpress/dx-react-chart": "^2.7.6",
