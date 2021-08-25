@@ -10,16 +10,10 @@ interface detailData {
         price:number,
         quantity:number
     }
-    kline:{
-
-    }
+    kline:{}
     orderbook:{
-        bid:{
-
-        };
-        ask:{
-
-        }
+        bid:{};
+        ask:{}
     }
 }
 
@@ -30,13 +24,17 @@ ws.on("open",() => {
     const message = JSON.stringify({
         method: "SUBSCRIBE",
         params: [
-            "btcusdt@aggTrade"
+            "btcusdt@aggTrade",
+            "btcusdt@kline_1m"
         ],
         id: 1,
     });
     ws.send(message);
 });
 
-ws.on("message", (data:string) => {
-    console.log(JSON.parse(data).p,JSON.parse(data).q);
+ws.on("message", (payload:string) => {
+    const jsonData = JSON.parse(payload); 
+    if(jsonData.e === 'kline'){
+        console.log(jsonData);
+    }
 });
