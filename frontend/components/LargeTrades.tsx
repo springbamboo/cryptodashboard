@@ -71,7 +71,6 @@ export default function BasicTable() {
         </TableBody>
       </Table>
     </TableContainer>
-
     </div>
   );
 }
