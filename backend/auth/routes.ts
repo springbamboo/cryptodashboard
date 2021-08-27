@@ -1,5 +1,6 @@
 import { Application } from "express";
-import { signin, signup } from "./controller";
+import signin from "./signin";
+import signup from "./signup";
 import {
     checkDuplicateUsernameOrEmail,
     checkRolesExisted,
@@ -13,11 +14,13 @@ export default (app: Application) => {
         );
         next();
     });
+
+    // 新規登録API
     app.post(
         "/api/auth/signup",
         [checkDuplicateUsernameOrEmail, checkRolesExisted],
         signup
     );
-
+    // ログインAPI
     app.post("/api/auth/signin", signin);
 };

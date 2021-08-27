@@ -1,13 +1,10 @@
 import { User, Role, RoleFields } from "./model";
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
 import { NativeError } from "mongoose";
-dotenv.config();
 
-// 登録
-export const signup = (req: Request, res: Response) => {
+// 新規登録API
+export default (req: Request, res: Response) => {
     // 新規ユーザー
     const user = new User({
         username: req.body.username,
@@ -15,7 +12,7 @@ export const signup = (req: Request, res: Response) => {
         password: bcrypt.hashSync(req.body.password, 8),
     });
 
-    // 保存
+    // DBに保存
     user.save((err, user) => {
         if (err) {
             res.status(500).send({ message: err });
@@ -40,7 +37,7 @@ export const signup = (req: Request, res: Response) => {
                 });
             });
         } else {
-            // ロールが存在しない場合はuserだけ
+            // ロールの要求が存在しない場合はuserだけ付与
             Role.findOne(
                 { name: "User" },
                 (err: NativeError, role: RoleFields) => {
@@ -48,6 +45,7 @@ export const signup = (req: Request, res: Response) => {
                         res.status(500).send({ message: err });
                         return;
                     }
+                    // Userロールのidだけを代入
                     // @ts-ignore
                     user.roles = [role["_id"]];
                     user.save((err) => {
@@ -63,45 +61,4 @@ export const signup = (req: Request, res: Response) => {
             );
         }
     });
-};
-
-export const signin = (req: Request, res: Response) => {
-    User.findOne({ username: req.body.username })
-        .populate("roles", "-__v")
-        .exec((err, user) => {
-            if (err) {
-                res.status(500).send({ message: err });
-                return;
-            }
-            if (!user) {
-                return res.status(404).send({ message: "User not found" });
-            }
-            const passwordIsValid = bcrypt.compareSync(
-                req.body.password,
-                user.password ?? ""
-            );
-            if (!passwordIsValid) {
-                return res.status(401).send({
-                    accessToken: null,
-                    message: "Invalid password",
-                });
-            }
-            const token = jwt.sign(
-                { id: user.id },
-                process.env.SECRET as jwt.Secret,
-                {
-                    expiresIn: 86400,
-                }
-            );
-            const authorities = user.roles?.map(
-                (role) => "ROLE_" + role.name?.toUpperCase()
-            );
-            res.status(200).send({
-                id: user.id,
-                username: user.username,
-                email: user.email,
-                roles: authorities,
-                accessTolen: token,
-            });
-        });
 };

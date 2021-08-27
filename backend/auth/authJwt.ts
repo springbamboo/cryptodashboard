@@ -5,6 +5,7 @@ import { Role, User } from "./model";
 
 dotenv.config();
 
+// ログインしているか。非ログインは401error
 export const verifyToken = (
     req: Request,
     res: Response,
@@ -24,6 +25,7 @@ export const verifyToken = (
     });
 };
 
+// 管理者権限があるか。なければ403error
 export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
     User.findById(req.body.userId).exec((err, user) => {
         if (err) {
