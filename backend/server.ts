@@ -1,5 +1,10 @@
 import express from "express";
 import cors from "cors";
+import { Role } from "./auth/model";
+import dbConfig from "./auth/config";
+import mongoose from "mongoose";
+import authRoutes from "./auth/routes";
+import apiRoutes from "./api/routes";
 
 const app = express();
 const corsOptions = {
@@ -14,9 +19,40 @@ app.use(express.json());
 // application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+mongoose
+    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => {
+      console.log("Succesfully connect to MongoDB");
+      init()
+    })
+    .catch((err) => {
+        console.error("Failed to connect to MongoDB", err);
+        process.exit();
+    });
+
+function init() {
+    Role.estimatedDocumentCount({}, (err, count) => {
+        if (err || count !== 0) return;
+        new Role({ name: "user" }).save((err) => {
+            if (err) throw err;
+            console.log("added 'user' to roles collection");
+        });
+        new Role({ name: "admin" }).save((err) => {
+            if (err) throw err;
+            console.log("added 'admin' to roles collection");
+        });
+    });
+}
+
 app.get("/", (req, res) => {
     res.send("Welcome.");
 });
+
+authRoutes(app);
+apiRoutes(app);
 
 const PORT = process.env.PORT || 8080;
 

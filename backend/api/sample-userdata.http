@@ -1,0 +1,3 @@
+GET http://localhost:8080/api/test/user HTTP/1.1
+content-type: application/json
+x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMjdjMGMwOTJhMjFjMDZiNjUzZWI3NyIsImlhdCI6MTYyOTk5NTQ5MiwiZXhwIjoxNjMwMDgxODkyfQ.arV3YM2guO29VAP-XirEuCG2JMg2OxnWvfEyetPCvMc
