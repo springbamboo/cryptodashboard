@@ -65,7 +65,7 @@ ws.on("message", (data: string) => {
         for (let i in pairs) {
             if (i === pairName) {
                 pairs[pairName].price = parseFloat(JSON.parse(data).c);
-                pairs[pairName].change = parseFloat(JSON.parse(data).P);
+                pairs[pairName].change = parseFloat(JSON.parse(data).P) / 100;
                 pairs[pairName].quatity = parseFloat(JSON.parse(data).q);
             }
         }

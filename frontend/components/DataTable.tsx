@@ -49,19 +49,28 @@ interface CellStyles {
 }
 type CellStylesObj = { [id: string]: CellStyles };
 
+const pairDigits = {
+    BTCUSDT: 2,
+    ETHUSDT: 2,
+    XRPUSDT: 4,
+};
+
 // サーバーから渡されたデータを、表示用データに整形
 const getRowData = (rank: number, coinData: CoindataId): RowData => ({
     Rank: rank.toString(),
     Exchange: coinData.exchange,
     Pair: coinData.pairName,
-    Price: coinData.price !== null ? coinData.price.toFixed(2) : "",
+    Price:
+        coinData.price !== null
+            ? coinData.price.toFixed(pairDigits[coinData.pairName])
+            : "",
     Long:
         coinData.ratio.long !== null
-            ? (coinData.ratio.long * 100).toFixed(4) + "%"
+            ? (coinData.ratio.long * 100).toFixed(2) + "%"
             : "",
     Short:
         coinData.ratio.short !== null
-            ? (coinData.ratio.short * 100).toFixed(4) + "%"
+            ? (coinData.ratio.short * 100).toFixed(2) + "%"
             : "",
     Funding:
         coinData.funding !== null
@@ -73,7 +82,7 @@ const getRowData = (rank: number, coinData: CoindataId): RowData => ({
             : "",
     HChanged:
         coinData.change !== null
-            ? millify(coinData.change, { precision: 2 })
+            ? (coinData.change * 100).toFixed(2) + "%"
             : "",
 });
 
@@ -84,14 +93,8 @@ const getCellStyles = (now: Coindata, prev: Coindata, style: CellStyles) => {
     if (now.price !== prev.price && prev.price != null) {
         result.price = now.price > prev.price ? "positive" : "negative";
     }
-    if (now.ratio.long !== prev.ratio.long && prev.ratio.long != null) {
-        result.long =
-            now.ratio.long > prev.ratio.long ? "positive" : "negative";
-    }
-    if (now.ratio.short !== prev.ratio.short && prev.ratio.short != null) {
-        result.short =
-            now.ratio.short > prev.ratio.short ? "positive" : "negative";
-    }
+    result.long = now.ratio.long > prev.ratio.short ? "positive" : "default";
+    result.short = now.ratio.long < prev.ratio.short ? "negative" : "default";
     result.hChanged = now.change > 0 ? "positive" : "negative";
     return result;
 };
