@@ -185,6 +185,56 @@ export default function BasicTable() {
         updateDisplayData(newCoinDataList);
     }, [wsData]);
 
+    const getTableBody = (symbol: string) => {
+        return Object.entries(rowsData)
+            .filter(([key, val]) => val.Pair === symbol)
+            .map(([key, val], i) => (
+                <TableRow key={key}>
+                    <TableCell component="th" scope="row">
+                        {val.Rank}
+                    </TableCell>
+                    <TableCell align="left">{val.Exchange}</TableCell>
+                    <TableCell align="left">{val.Pair}</TableCell>
+                    <TableCell
+                        align="left"
+                        className={styles[cellStyles[key].price]}
+                    >
+                        {val.Price}
+                    </TableCell>
+                    <TableCell
+                        align="left"
+                        className={styles[cellStyles[key].long]}
+                    >
+                        {val.Long}
+                    </TableCell>
+                    <TableCell
+                        align="left"
+                        className={styles[cellStyles[key].short]}
+                    >
+                        {val.Short}
+                    </TableCell>
+                    <TableCell
+                        align="left"
+                        className={styles[cellStyles[key].funding]}
+                    >
+                        {val.Funding}
+                    </TableCell>
+                    <TableCell
+                        align="left"
+                        className={styles[cellStyles[key].hVolume]}
+                    >
+                        {val.HVolume}
+                    </TableCell>
+                    <TableCell
+                        align="left"
+                        className={styles[cellStyles[key].hChanged]}
+                    >
+                        {val.HChanged}
+                    </TableCell>
+                </TableRow>
+            ));
+    };
+
     return (
         <div className={styles.root}>
             <TableContainer className={styles.currency} component={Paper}>
@@ -212,81 +262,25 @@ export default function BasicTable() {
                             <TableCell align="left">24H&nbsp;Changed</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {Object.entries(rowsData)
-                            .filter(([key, val]) => val.Pair === "BTCUSDT")
-                            .map(([key, val], i) => (
-                                <TableRow key={key}>
-                                    <TableCell component="th" scope="row">
-                                        {val.Rank}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {val.Exchange}
-                                    </TableCell>
-                                    <TableCell align="left">
-                                        {val.Pair}
-                                    </TableCell>
-                                    <TableCell
-                                        align="left"
-                                        className={
-                                            styles[cellStyles[key].price]
-                                        }
-                                    >
-                                        {val.Price}
-                                    </TableCell>
-                                    <TableCell
-                                        align="left"
-                                        className={styles[cellStyles[key].long]}
-                                    >
-                                        {val.Long}
-                                    </TableCell>
-                                    <TableCell
-                                        align="left"
-                                        className={
-                                            styles[cellStyles[key].short]
-                                        }
-                                    >
-                                        {val.Short}
-                                    </TableCell>
-                                    <TableCell
-                                        align="left"
-                                        className={
-                                            styles[cellStyles[key].funding]
-                                        }
-                                    >
-                                        {val.Funding}
-                                    </TableCell>
-                                    <TableCell
-                                        align="left"
-                                        className={
-                                            styles[cellStyles[key].hVolume]
-                                        }
-                                    >
-                                        {val.HVolume}
-                                    </TableCell>
-                                    <TableCell
-                                        align="left"
-                                        className={
-                                            styles[cellStyles[key].hChanged]
-                                        }
-                                    >
-                                        {val.HChanged}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
+                    <TableBody>{getTableBody("BTCUSDT")}</TableBody>
                 </Table>
             </TableContainer>
-
-            {/* <TableContainer className={styles.currency} component={Paper}>
-                <div className={styles.currencyName} id="ripple">
-                    <Image src={ImageXRP} className={styles.logo} width={20} height={20} alt="Logo" />
-                    RIPPLE
+            <TableContainer className={styles.currency} component={Paper}>
+                <div className={styles.currencyName} id="ethereum">
+                    <Image
+                        src={ImageETH}
+                        className={styles.logo}
+                        width={20}
+                        height={20}
+                        alt="Logo"
+                    />
+                    ETHEREUM
                 </div>
                 <Table className={styles.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell>Rank</TableCell>
+                            {/* <TableCell align="left">Exchange</TableCell> */}
                             <TableCell align="left">Exchange</TableCell>
                             <TableCell align="left">Pair</TableCell>
                             <TableCell align="left">Price</TableCell>
@@ -297,33 +291,38 @@ export default function BasicTable() {
                             <TableCell align="left">24H&nbsp;Changed</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {rowsXrp.map((row, i) => (
-                            <TableRow key={i}>
-                                <TableCell component="th" scope="row">
-                                    {row.Rank}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {row.Exchange}
-                                </TableCell>
-                                <TableCell align="left">{row.Pair}</TableCell>
-                                <TableCell align="left">{row.Price}</TableCell>
-                                <TableCell align="left">{row.Long}</TableCell>
-                                <TableCell align="left">{row.Short}</TableCell>
-                                <TableCell align="left">
-                                    {row.Funding}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {row.HVolume}
-                                </TableCell>
-                                <TableCell align="left">
-                                    {row.HChanged}
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
+                    <TableBody>{getTableBody("ETHUSDT")}</TableBody>
                 </Table>
-            </TableContainer> */}
+            </TableContainer>
+            <TableContainer className={styles.currency} component={Paper}>
+                <div className={styles.currencyName} id="ripple">
+                    <Image
+                        src={ImageXRP}
+                        className={styles.logo}
+                        width={20}
+                        height={20}
+                        alt="Logo"
+                    />
+                    RIPPLE
+                </div>
+                <Table className={styles.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Rank</TableCell>
+                            {/* <TableCell align="left">Exchange</TableCell> */}
+                            <TableCell align="left">Exchange</TableCell>
+                            <TableCell align="left">Pair</TableCell>
+                            <TableCell align="left">Price</TableCell>
+                            <TableCell align="left">Long&nbsp;(%)</TableCell>
+                            <TableCell align="left">Short&nbsp;(%)</TableCell>
+                            <TableCell align="left">Funding</TableCell>
+                            <TableCell align="left">24H&nbsp;Volume</TableCell>
+                            <TableCell align="left">24H&nbsp;Changed</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>{getTableBody("XRPUSDT")}</TableBody>
+                </Table>
+            </TableContainer>
         </div>
     );
 }
