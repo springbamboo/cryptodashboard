@@ -6,11 +6,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import useWsService from "../services/front_back_socket";
+import { connectHomeWS } from "../services/front_back_socket";
 import { useState, useEffect, useRef } from "react";
 import styles from "./DataTable.module.css";
 import millify from "millify";
-import { Coindata } from "../../share/model";
+import { Coindata, CoindataObj } from "../../share/model";
 import { ValueScale } from "@devexpress/dx-react-chart";
 
 import Image from "next/image";
@@ -34,6 +34,7 @@ interface RowData {
     HVolume: string;
     HChanged: string;
 }
+type RowDataObj = { [id: string]: RowData };
 
 // セル書式
 type CellStyle = "default" | "negative" | "positive";
@@ -46,113 +47,82 @@ interface CellStyles {
     hVolume: CellStyle;
     hChanged: CellStyle;
 }
+type CellStylesObj = { [id: string]: CellStyles };
+
+// サーバーから渡されたデータを、表示用データに整形
+const getRowData = (rank: number, coinData: CoindataId): RowData => ({
+    Rank: rank.toString(),
+    Exchange: coinData.exchange,
+    Pair: coinData.pairName,
+    Price: coinData.price !== null ? coinData.price.toFixed(2) : "",
+    Long:
+        coinData.ratio.long !== null
+            ? (coinData.ratio.long * 100).toFixed(4) + "%"
+            : "",
+    Short:
+        coinData.ratio.short !== null
+            ? (coinData.ratio.short * 100).toFixed(4) + "%"
+            : "",
+    Funding:
+        coinData.funding !== null
+            ? (coinData.funding * 100).toFixed(4) + "%"
+            : "",
+    HVolume:
+        coinData.quatity !== null
+            ? millify(coinData.quatity, { precision: 2 })
+            : "",
+    HChanged:
+        coinData.change !== null
+            ? millify(coinData.change, { precision: 2 })
+            : "",
+});
+
+// 増減をもとにセル書式を取得
+const getCellStyles = (now: Coindata, prev: Coindata, style: CellStyles) => {
+    if (!prev) return createDefaultCellStyle();
+    const result: CellStyles = { ...style };
+    if (now.price !== prev.price && prev.price != null) {
+        result.price = now.price > prev.price ? "positive" : "negative";
+    }
+    if (now.ratio.long !== prev.ratio.long && prev.ratio.long != null) {
+        result.long =
+            now.ratio.long > prev.ratio.long ? "positive" : "negative";
+    }
+    if (now.ratio.short !== prev.ratio.short && prev.ratio.short != null) {
+        result.short =
+            now.ratio.short > prev.ratio.short ? "positive" : "negative";
+    }
+    result.hChanged = now.change > 0 ? "positive" : "negative";
+    return result;
+};
+
+// セル書式の初期値
+const createDefaultCellStyle = (): CellStyles => {
+    return {
+        price: "default",
+        long: "default",
+        short: "default",
+        funding: "default",
+        hChanged: "default",
+        hVolume: "default",
+    };
+};
 
 export default function BasicTable() {
-    // サーバーから渡されたデータを、表示用データに整形
-    const getRowData = (rank: number, coinData: CoindataId): RowData => {
-        return {
-            Rank: rank.toString(),
-            Exchange: coinData.exchange,
-            Pair: coinData.pairName,
-            Price: coinData.price !== null ? coinData.price.toFixed(2) : "",
-            Long:
-                coinData.ratio.long !== null
-                    ? (coinData.ratio.long * 100).toFixed(4) + "%"
-                    : "",
-            Short:
-                coinData.ratio.short !== null
-                    ? (coinData.ratio.short * 100).toFixed(4) + "%"
-                    : "",
-            Funding:
-                coinData.funding !== null
-                    ? (coinData.funding * 100).toFixed(4) + "%"
-                    : "",
-            HVolume:
-                coinData.quatity !== null
-                    ? millify(coinData.quatity, { precision: 2 })
-                    : "",
-            HChanged:
-                coinData.change !== null
-                    ? millify(coinData.change, { precision: 2 })
-                    : "",
-        };
-    };
-
-    const getCellStyles = (
-        now: Coindata,
-        prev: Coindata,
-        style: CellStyles
-    ) => {
-        if (!prev) return createDefaultCellStyle();
-        const result: CellStyles = { ...style };
-        if (now.price !== prev.price && prev.price != null) {
-            result.price = now.price > prev.price ? "positive" : "negative";
-        }
-        if (now.ratio.long !== prev.ratio.long && prev.ratio.long != null) {
-            result.long =
-                now.ratio.long > prev.ratio.long ? "positive" : "negative";
-        }
-        if (now.ratio.short !== prev.ratio.short && prev.ratio.short != null) {
-            result.short =
-                now.ratio.short > prev.ratio.short ? "positive" : "negative";
-        }
-        result.hChanged = now.change > 0 ? "positive" : "negative";
-        return result;
-    };
-
-    // セル書式初期化
-    const createDefaultCellStyle = (): CellStyles => {
-        return {
-            price: "default",
-            long: "default",
-            short: "default",
-            funding: "default",
-            hChanged: "default",
-            hVolume: "default",
-        };
-    };
-
-    // サーバーからのデータ
-    const [serverData, setServerData] = useState<{ [id: string]: Coindata }>(
-        {}
-    );
+    // 直近1回のサーバーからのデータ
+    const [wsData, setWsData] = useState<CoindataObj>({});
+    // サーバーからのデータを結合したもの
     const [coinDataList, setCoinDataList] = useState<CoindataId[]>([]);
-    const prevDataRef = useRef(coinDataList);
-
-    // 表示用データ
-    const [rowsData, setRowsData] = useState<{ [id: string]: RowData }>({});
-
+    // 前回のCoinDataListの値
+    const prevDataRef = useRef<CoindataId[]>(coinDataList);
+    // CoinDataListを表示文字列に加工したもの
+    const [rowsData, setRowsData] = useState<RowDataObj>({});
     // セル書式
-    const [cellStyles, setCellStyles] = useState<{ [id: string]: CellStyles }>(
-        {}
-    );
+    const [cellStyles, setCellStyles] = useState<CellStylesObj>({});
 
-    useEffect(() => {
-        // deep copy
-        const newRowsData = Object.fromEntries<RowData>(
-            Object.entries(rowsData).map(([key, val]) => [key, { ...val }])
-        );
-        const newCellStyles = Object.fromEntries<CellStyles>(
-            Object.entries(cellStyles).map(([key, val]) => [key, { ...val }])
-        );
-        // 表示文字列と、スタイルの更新
-        for (const coinData of coinDataList) {
-            const id = coinData._id;
-            newCellStyles[id] = getCellStyles(
-                coinData,
-                prevDataRef.current.find((item) => item._id === id),
-                cellStyles[id]
-            );
-            newRowsData[id] = getRowData(1, coinData);
-        }
-        prevDataRef.current = coinDataList;
-        setRowsData(newRowsData);
-        setCellStyles(newCellStyles);
-    }, [coinDataList]);
-
-    // const onReceive = (wsData: { [key: string]: Coindata }) => {
-    useEffect(() => {
-        const wsData = serverData;
+    // CoinDataListの結合/更新
+    // 既に同じ取引所と通貨ペアのデータがあれば更新し、なければ追加する
+    const updateCoinDataList = () => {
         // deep copy
         const newCoinDataList = JSON.parse(JSON.stringify(coinDataList));
         for (const key in wsData) {
@@ -174,9 +144,46 @@ export default function BasicTable() {
             }
         }
         setCoinDataList(newCoinDataList);
-    }, [serverData]);
+        return newCoinDataList;
+    };
 
-    useWsService(setServerData);
+    // 表示文字列と表示スタイルの更新
+    const updateDisplayData = (coinDataList: CoindataId[]) => {
+        // deep copy
+        const newRowsData = Object.fromEntries<RowData>(
+            Object.entries(rowsData).map(([key, val]) => [key, { ...val }])
+        );
+        const newCellStyles = Object.fromEntries<CellStyles>(
+            Object.entries(cellStyles).map(([key, val]) => [key, { ...val }])
+        );
+        // 表示文字列と、スタイルの更新
+        for (const coinData of coinDataList) {
+            const id = coinData._id;
+            newCellStyles[id] = getCellStyles(
+                coinData,
+                prevDataRef.current.find((item) => item._id === id),
+                cellStyles[id]
+            );
+            newRowsData[id] = getRowData(1, coinData);
+        }
+        prevDataRef.current = coinDataList;
+        setRowsData(newRowsData);
+        setCellStyles(newCellStyles);
+    };
+
+    // WebSocketと接続
+    // 受け取ったデータはwsDataへ保管
+    useEffect(() => {
+        connectHomeWS(setWsData);
+    }, []);
+
+    // wsDataが更新されたら(WS経由でデータが来たら)
+    // CoinDataListで過去のデータと結合/更新
+    // 表示用文字列と表示スタイルを更新
+    useEffect(() => {
+        const newCoinDataList = updateCoinDataList();
+        updateDisplayData(newCoinDataList);
+    }, [wsData]);
 
     return (
         <div className={styles.root}>

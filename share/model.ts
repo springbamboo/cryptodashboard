@@ -11,3 +11,5 @@ export interface Coindata {
         short: number;
     };
 }
+
+export type CoindataObj = { [pairName: string]: Coindata}
