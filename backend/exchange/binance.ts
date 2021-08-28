@@ -28,10 +28,12 @@ setInterval(() => {
         pair = coinNameHttp[i];
         let http_ratio = `/futures/data/topLongShortPositionRatio?symbol=${pair}&period=5m&limit=1`;
         request(http_endPoint + http_ratio, function (err, response, payload) {
-            pairs[JSON.parse(payload)[0].symbol].ratio.long =
-                JSON.parse(payload)[0].longAccount;
-            pairs[JSON.parse(payload)[0].symbol].ratio.short =
-                JSON.parse(payload)[0].shortAccount;
+            pairs[JSON.parse(payload)[0].symbol].ratio.long = parseFloat(
+                JSON.parse(payload)[0].longAccount
+            );
+            pairs[JSON.parse(payload)[0].symbol].ratio.short = parseFloat(
+                JSON.parse(payload)[0].shortAccount
+            );
         });
     }
 }, 5000);
@@ -62,16 +64,16 @@ ws.on("message", (data: string) => {
         const pairName = JSON.parse(data).s;
         for (let i in pairs) {
             if (i === pairName) {
-                pairs[pairName].price = JSON.parse(data).c;
-                pairs[pairName].change = JSON.parse(data).P;
-                pairs[pairName].quatity = JSON.parse(data).q;
+                pairs[pairName].price = parseFloat(JSON.parse(data).c);
+                pairs[pairName].change = parseFloat(JSON.parse(data).P);
+                pairs[pairName].quatity = parseFloat(JSON.parse(data).q);
             }
         }
     }
     if (JSON.parse(data).e === "markPriceUpdate") {
         for (let j in pairs) {
             if (j === JSON.parse(data).s) {
-                pairs[j].funding = JSON.parse(data).r;
+                pairs[j].funding = parseFloat(JSON.parse(data).r);
             }
         }
     }

@@ -73,7 +73,7 @@ ws.on("message", (data: string) => {
                 pairs[JSON.parse(data).data.symbol].quatity =
                     parseFloat(snapshot.turnover_24h_e8) / 100000000;
                 pairs[JSON.parse(data).data.symbol].funding =
-                    parseFloat(snapshot.funding_rate_e6) / 10000;
+                    parseFloat(snapshot.funding_rate_e6) / 1000000;
             }
         }
     }
