@@ -14,6 +14,9 @@
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .currency .negative {
@@ -26,4 +29,8 @@
 }
 .currency .default {
     color: unset;
+}
+
+.logo {
+    margin-right: 10px; /* 効いてない */
 }

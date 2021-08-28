@@ -11,6 +11,11 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./DataTable.module.css";
 import millify from "millify";
 
+import Image from 'next/image';
+import ImageBTC from '../images/bitcoin.png';
+import ImageETH from '../images/ethereum.png';
+import ImageXRP from '../images/xrp.png';
+
 //サーバーから渡されるデータ
 interface Coindata {
     exchange: string;
@@ -147,7 +152,7 @@ export default function BasicTable() {
         getRowData(1, data.BTCUSDT),
         createData(
             "2",
-            "Bybit",
+            "Binance",
             "BTCUSDT",
             0,
             "48%",
@@ -158,7 +163,7 @@ export default function BasicTable() {
         ),
         createData(
             "3",
-            "Ftx",
+            "Bybit",
             "BTCUSDT",
             0,
             "48%",
@@ -184,8 +189,8 @@ export default function BasicTable() {
         getRowData(1, data.ETHUSDT),
         createData(
             "2",
-            "Bybit",
-            "BTCUSDT",
+            "Binance",
+            "ETHUSDT",
             0,
             "48%",
             "51%",
@@ -195,8 +200,8 @@ export default function BasicTable() {
         ),
         createData(
             "3",
-            "Ftx",
-            "BTCUSDT",
+            "Bybit",
+            "ETHUSDT",
             0,
             "48%",
             "51%",
@@ -207,7 +212,7 @@ export default function BasicTable() {
         createData(
             "4",
             "Ftx",
-            "BTCUSDT",
+            "ETHUSDT",
             0,
             "48%",
             "51%",
@@ -221,8 +226,8 @@ export default function BasicTable() {
         getRowData(1, data.XRPUSDT),
         createData(
             "2",
-            "Bybit",
-            "BTCUSDT",
+            "Binance",
+            "XRPUSDT",
             0,
             "48%",
             "51%",
@@ -232,8 +237,8 @@ export default function BasicTable() {
         ),
         createData(
             "3",
-            "Ftx",
-            "BTCUSDT",
+            "Bybit",
+            "XRPUSDT",
             0,
             "48%",
             "51%",
@@ -244,7 +249,7 @@ export default function BasicTable() {
         createData(
             "4",
             "Ftx",
-            "BTCUSDT",
+            "XRPUSDT",
             0,
             "48%",
             "51%",
@@ -295,6 +300,7 @@ export default function BasicTable() {
         <div className={styles.root}>
             <TableContainer className={styles.currency} component={Paper}>
                 <div className={styles.currencyName} id="bitcoin">
+                    <Image src={ImageBTC} className={styles.logo} width={20} height={20} alt="Logo" />
                     BITCOIN
                 </div>
                 <Table className={styles.table} aria-label="simple table">
@@ -380,6 +386,7 @@ export default function BasicTable() {
 
             <TableContainer className={styles.currency} component={Paper}>
                 <div className={styles.currencyName} id="ethereum">
+                    <Image src={ImageETH} className={styles.logo} width={20} height={20} alt="Logo" />
                     ETHEREUM
                 </div>
                 <Table className={styles.table} aria-label="simple table">
@@ -427,6 +434,7 @@ export default function BasicTable() {
 
             <TableContainer className={styles.currency} component={Paper}>
                 <div className={styles.currencyName} id="ripple">
+                    <Image src={ImageXRP} className={styles.logo} width={20} height={20} alt="Logo" />
                     RIPPLE
                 </div>
                 <Table className={styles.table} aria-label="simple table">

@@ -38,16 +38,6 @@ export default function ContainedButtons() {
             >
                 Ripple
             </Button>
-            <Button variant="contained" disableElevation>
-                ddeeffgg
-            </Button>
-            <Button
-                variant="contained"
-                href="#contained-buttons"
-                disableElevation
-            >
-                hhii
-            </Button>
         </div>
     );
 }
