@@ -2,8 +2,6 @@ import { User } from "./model";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
-dotenv.config();
 
 // ログインAPI
 export default (req: Request, res: Response) => {

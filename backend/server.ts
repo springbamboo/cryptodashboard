@@ -1,10 +1,16 @@
 import express from "express";
 import cors from "cors";
 import { Role } from "./auth/model";
-import dbConfig from "./auth/config";
 import mongoose from "mongoose";
 import authRoutes from "./auth/routes";
 import apiRoutes from "./api/routes";
+import dotenv from "dotenv";
+const DEResult = dotenv.config();
+if (DEResult.error) {
+    console.log(".envファイルの読み込みに失敗。");
+    throw DEResult.error;
+}
+const { DB_HOST, DB_USER, DB_PASS, DB_TABLE } = process.env;
 
 const app = express();
 const corsOptions = {
@@ -21,10 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // DBに接続
 mongoose
-    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    .connect(
+        `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_TABLE}?retryWrites=true&w=majority`,
+        {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        }
+    )
     .then(() => {
         console.log("Succesfully connect to MongoDB");
         init();

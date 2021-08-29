@@ -39,7 +39,7 @@ export default (req: Request, res: Response) => {
         } else {
             // ロールの要求が存在しない場合はuserだけ付与
             Role.findOne(
-                { name: "User" },
+                { name: "user" },
                 (err: NativeError, role: RoleFields) => {
                     if (err) {
                         res.status(500).send({ message: err });

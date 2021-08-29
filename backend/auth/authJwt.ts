@@ -1,9 +1,6 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 import { Role, User } from "./model";
-
-dotenv.config();
 
 // ログインしているか。非ログインは401error
 export const verifyToken = (

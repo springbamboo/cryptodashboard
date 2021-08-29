@@ -11,6 +11,7 @@ import { LockOutlined } from "@material-ui/icons";
 import React from "react";
 import styles from "./signup.module.css";
 
+const action = "http://localhost:8080/api/auth/signup";
 export default function signup() {
     return (
         <Container component="main" maxWidth="xs">
@@ -21,7 +22,12 @@ export default function signup() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form noValidate className={styles.form}>
+                <form
+                    noValidate
+                    className={styles.form}
+                    action={action}
+                    method="post"
+                >
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <TextField
