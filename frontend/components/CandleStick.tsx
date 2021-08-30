@@ -26,7 +26,7 @@ const CandleStick = () => {
         chart: {
             type: "candlestick",
             height: 350,
-            background: "black",
+            background: "#424242",
         },
         title: {
             text: "CandleStick Chart",

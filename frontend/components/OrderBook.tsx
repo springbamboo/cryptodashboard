@@ -9,18 +9,21 @@ import Paper from "@material-ui/core/Paper";
 // import useWsService from "../services/front_back_socket";
 import React, { useState, useEffect } from "react";
 
-export default function BasicTable() {
+export default function BasicTable(props) {
     // const [price, setPrice] = useState(0);
     // useWsService(setPrice);
 
     const [maxTotal, setMaxTotal] = useState(100);
 
-    function backChart(value: number) {
+    function backChart(total: number, ByOrSell: string) {
+        let backColor = ByOrSell === 'Cell'
+                      ? "#88004488"
+                      : "#00880088";
         return {
-            color: "red",
-            background: `linear-gradient(to left, #f00 ${
-                (100 * value) / maxTotal
-            }%, #000 ${(100 * value) / maxTotal}%)`,
+            color: "#444",
+            background: `linear-gradient(to left, ${backColor} ${
+                (100 * total) / maxTotal
+            }%, #424242 ${(100 * total) / maxTotal}%)`,
         };
     }
 
@@ -30,7 +33,7 @@ export default function BasicTable() {
 
     const useStyles = makeStyles({
         root: {
-            padding: 20,
+            padding: 10,
         },
         table: {
             // minWidth: 650,
@@ -48,16 +51,18 @@ export default function BasicTable() {
         },
     });
 
-    function createData(Rank, Exchange, Price, Size, Total) {
-        return { Rank, Exchange, Price, Size, Total };
+    function createData(Rank, Exchange, Price, Size, Total, ByOrSell) {
+        return { Rank, Exchange, Price, Size, Total, ByOrSell };
     }
 
-    const rows = [
-        createData("1", "XXX", 100, 200, 30),
-        createData("2", "XXX", 100, 200, 20),
-        createData("3", "XXX", 100, 200, 10),
-        createData("4", "XXX", 100, 200, 50),
-        createData("5", "XXX", 100, 200, 80),
+    const rows = [ // 仮で入れている部分．APIでデータが取れたらここに代入
+        createData("1", "XXX", 100, 200, props.data, "Cell"),
+        createData("2", "XXX", 100, 200, 20, "Cell"),
+        createData("3", "XXX", 100, 200, 10, "Cell"),
+        createData("4", "XXX", 100, 200, 50, "Cell"),
+        createData("5", "XXX", 100, 200, 80, "Buy"),
+        createData("6", "XXX", 100, 200, 50, "Buy"),
+        createData("7", "XXX", 100, 200, 20, "Buy"),
     ];
     const classes = useStyles();
     return (
@@ -77,7 +82,7 @@ export default function BasicTable() {
                     </TableHead>
                     <TableBody>
                         {rows.map((row, i) => (
-                            <TableRow key={i} style={backChart(row.Total)}>
+                            <TableRow key={i} style={backChart(row.Total, row.ByOrSell)}>
                                 <TableCell component="th" scope="row">
                                     {row.Exchange}
                                 </TableCell>
