@@ -20,6 +20,8 @@
     "express-ws": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.13.8",
+    "axios": "^0.21.1",
+    "nodemon": "^2.0.12",
     "pako": "^2.0.4",
     "request": "^2.88.2",
     "typescript": "^4.3.5",

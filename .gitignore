@@ -119,3 +119,4 @@ dist
 .yarn/install-state.gz
 .pnp.*
 frontend/package-lock.json
+backend/package-lock.json

@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 
 export default function BasicTable() {
     const [price, setPrice] = useState(0);
-    useWsService(setPrice);
+    // useWsService(setPrice);
 
     const useStyles = makeStyles({
         root: {

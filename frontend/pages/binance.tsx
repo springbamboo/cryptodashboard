@@ -10,6 +10,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import OrderBook from "../components/OrderBook";
 import LargeTrades from "../components/LargeTrades";
 import styles from "./binance.module.css";
+import CandleStick from "../components/CandleStick";
 
 export default function Home() {
     const theme = useTheme();
@@ -22,14 +23,14 @@ export default function Home() {
             <div>
                 <div className={styles.content}>
                     <Grid container spacing={3}>
-                        <Grid item xs={6}>
+                        <Grid item xs={12}>
                             <Paper style={{ padding: theme.spacing(2) }}>
-                                <OrderBook />
+                                <CandleStick />
                             </Paper>
                         </Grid>
                         <Grid item xs={6}>
                             <Paper style={{ padding: theme.spacing(2) }}>
-                                <LargeTrades />
+                                <OrderBook />
                             </Paper>
                         </Grid>
                         <Grid item xs={6}>
