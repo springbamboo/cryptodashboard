@@ -23,6 +23,7 @@ function connectWS<T>(path: string, setValue: Dispatch<SetStateAction<T>>) {
     });
 }
 
-export const connectHomeWS = (setvalue: Dispatch<SetStateAction<CoindataObj>>) =>
-    connectWS<CoindataObj>("home", setvalue);
+export const connectHomeWS = (
+    setvalue: Dispatch<SetStateAction<CoindataObj>>
+) => connectWS<CoindataObj>("home", setvalue);
 // export default useWsService

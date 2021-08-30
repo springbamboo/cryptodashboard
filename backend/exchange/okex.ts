@@ -4,9 +4,8 @@ import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import request from "request";
 
-
 const ws: WebSocket = new WebSocket("wss://awspush.okex.com:8443/ws/v3");
-const server = new WebSocket.Server({port:5001});
+const server = new WebSocket.Server({ port: 5001 });
 
 const exchange: string = "okex";
 
@@ -41,7 +40,7 @@ setInterval(() => {
 server.on("connection", (ws) => {
     clients.push(ws);
     console.log(clients.length);
-})
+});
 
 ws.on("open", () => {
     const message: string = JSON.stringify({
@@ -90,7 +89,7 @@ ws.on("message", (data: Buffer) => {
         }
     }
     // console.log(pairs);
-    for(let i = 0; i < clients.length; i++){
+    for (let i = 0; i < clients.length; i++) {
         clients[i].send(JSON.stringify(pairs));
     }
     console.log(JSON.parse(payload));
