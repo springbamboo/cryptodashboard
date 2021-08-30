@@ -8,18 +8,18 @@ import DataTable from "../components/DataTable";
 import Footer from "../components/Footer";
 
 export default function Home() {
-  return (
-    <div>
-      <div>
-        <Header />
-      </div>
-      <div>
-        <CurrencySwitchButton />
-        <DataTable />
-      </div>
-      <div>
-        <Footer />
-      </div>
-    </div>
-  );
+    return (
+        <div>
+            <div>
+                <Header />
+            </div>
+            <div>
+                <CurrencySwitchButton />
+                <DataTable />
+            </div>
+            <div>
+                <Footer />
+            </div>
+        </div>
+    );
 }

@@ -9,35 +9,35 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    // ハンバーガーメニュー
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    // アイコン
-    flexGrow: 1,
-    color: "#ccccff",
-  },
+    root: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        // ハンバーガーメニュー
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        // アイコン
+        flexGrow: 1,
+        color: "#ccccff",
+    },
 }));
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
+    const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static" color="inherit">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            CRYPTO DATA
-          </Typography>
-          <Button>About</Button>
-          <Button>Developers</Button>
-          <Button>API DOC</Button>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+    return (
+        <div className={classes.root}>
+            <AppBar position="static" color="inherit">
+                <Toolbar>
+                    <Typography variant="h6" className={classes.title}>
+                        CRYPTO DATA
+                    </Typography>
+                    <Button>About</Button>
+                    <Button>Developers</Button>
+                    <Button>API DOC</Button>
+                </Toolbar>
+            </AppBar>
+        </div>
+    );
 }
