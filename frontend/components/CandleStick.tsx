@@ -12,12 +12,11 @@ const CandleStick = () => {
             data: klineDdata,
         },
     ];
-    // console.log(series[0].data);
+
     useEffect(() => {
         const promise = axios("http://localhost:5000/binance/btcusdt");
         promise.then((res) => {
             setKlineData(res.data);
-            console.log(res.data[49][4]);
         }).catch(err => console.log(err));
     },[]);
 
@@ -29,6 +28,7 @@ const CandleStick = () => {
         },
         title: {
             text: "CandleStick Chart",
+            backgrouond:"white",
             align: "left",
         },
         xaxis: {
@@ -39,6 +39,17 @@ const CandleStick = () => {
                 enabled: false,
             },
         },
+        theme: {
+            mode: 'dark', 
+            palette: 'palette1', 
+            monochrome: {
+                enabled: false,
+                color: '#255aee',
+                shadeTo: 'light',
+                shadeIntensity: 0.65
+            },
+        }
+        
     };
 
     return (

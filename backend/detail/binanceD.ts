@@ -6,7 +6,7 @@ const app = express();
 
 const ws: WebSocket = new WebSocket(" wss://fstream.binance.com/ws");
 const httpEndPoint: string = "https://fapi.binance.com";
-const httpKline: string = "/fapi/v1/klines?symbol=btcusdt&interval=1m&limit=50";
+const httpKline: string = "/fapi/v1/klines?symbol=btcusdt&interval=1m&limit=500";
 
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

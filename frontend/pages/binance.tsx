@@ -23,6 +23,11 @@ export default function Home() {
             <div>
                 <div className={styles.content}>
                     <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                            <Paper style={{ padding: theme.spacing(2) }}>
+                                <CandleStick />
+                            </Paper>
+                        </Grid>
                         <Grid item xs={6}>
                             <Paper style={{ padding: theme.spacing(2) }}>
                                 <OrderBook />
@@ -36,11 +41,6 @@ export default function Home() {
                         <Grid item xs={6}>
                             <Paper style={{ padding: theme.spacing(2) }}>
                                 <LargeTrades />
-                            </Paper>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Paper style={{ padding: theme.spacing(2) }}>
-                                <CandleStick />
                             </Paper>
                         </Grid>
                     </Grid>
