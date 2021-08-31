@@ -19,7 +19,6 @@ app.get("/binance/btcusdt", (req, res) => {
     promise.then((response: { data: any }) => {
         const newData = response.data;
         const cdata = newData.map((d: string[]) => {
-            const date = new Date(d[0]);
             return [
                 d[0],
                 parseFloat(d[1]),
