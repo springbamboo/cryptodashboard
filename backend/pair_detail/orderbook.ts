@@ -18,8 +18,11 @@ app.get("/binance/btcusdt", (req, res) => {
         let index = 0;
         for (let i = bidOne; i >= bidLast; i--) {
             xbid.push(i);
-            for(let j = 0; j < 1000; j++){
-                if(parseFloat(newData.bids[j][0]) < i + 1 && parseFloat(newData.bids[j][0]) >= i){
+            for (let j = 0; j < 1000; j++) {
+                if (
+                    parseFloat(newData.bids[j][0]) < i + 1 &&
+                    parseFloat(newData.bids[j][0]) >= i
+                ) {
                     ybid[index] += parseFloat(newData.bids[j][1]);
                 }
             }

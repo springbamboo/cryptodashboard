@@ -22,8 +22,8 @@ const theme = createTheme({
             contrastText: "#000",
         },
         background: {
-          default: "#303030"
-        }
+            default: "#303030",
+        },
     },
 });
 // [prefersDarkMode],

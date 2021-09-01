@@ -12,4 +12,4 @@ export interface Coindata {
     };
 }
 
-export type CoindataObj = { [pairName: string]: Coindata}
+export type CoindataObj = { [pairName: string]: Coindata };
