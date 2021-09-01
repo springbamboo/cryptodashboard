@@ -2,14 +2,13 @@ import axios from "axios";
 import express from "express";
 const app = express();
 const limit = 1000;
-const httpEndPoint: string = "https://fapi.binance.com";
 // bid 大→小  ask 小→大
 app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
 });
 app.get(`/binance/:pair`, (req, res) => {
-    // console.log(req.params.pair);
+    const httpEndPoint: string = "https://fapi.binance.com";
     const httpOrderBook: string = `/fapi/v1/depth?symbol=${req.params.pair}&limit=${limit}`;
     const promise = axios.get(httpEndPoint + httpOrderBook);
     promise.then((response) => {

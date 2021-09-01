@@ -26,7 +26,7 @@ const OrderBook = () => {
     const options = {
         chart: {
             type: "bar",
-            height: 600
+            height: 1000
         },
         dataLabels: {
             enabled: true,
@@ -70,7 +70,7 @@ const OrderBook = () => {
                 options={options}
                 series={series}
                 type="bar"
-                height={600}
+                height={1000}
         />
         </div>
     );
