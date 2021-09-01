@@ -12,7 +12,7 @@ const OrderBook = () => {
         setInterval(()=>{
             const promise = axios("http://localhost:5400/binance/btcusdt");
             promise.then((res) => {
-                console.log(res.data);
+                // console.log(res.data);
                 setXAsk(res.data[0]);
                 setYAsk(res.data[1]);
             });
@@ -26,7 +26,7 @@ const OrderBook = () => {
     const options = {
         chart: {
             type: "bar",
-            height: 500,
+            height: 600
         },
         dataLabels: {
             enabled: true,
@@ -70,7 +70,7 @@ const OrderBook = () => {
                 options={options}
                 series={series}
                 type="bar"
-                height={800}
+                height={600}
         />
         </div>
     );

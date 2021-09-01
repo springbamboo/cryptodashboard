@@ -34,7 +34,6 @@ export default function Home() {
                                 <OrderBook />
                             </Paper>
                         </Grid>
-
                         <Grid item xs={6}>
                             <Paper style={{ padding: theme.spacing(2) }}>
                                 <LargeTrades />
