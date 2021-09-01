@@ -1,15 +1,16 @@
 let _isLogin: boolean = false;
+let _userStatus: LoginResult | null = null;
 const ROOT_ENDPOINT = "http://localhost:8080";
 const SIGNUP_PATH = "/api/auth/signup";
 const SIGNIN_PATH = "/api/auth/signIN";
 
-type AuthResult = { message: string };
+type SignUpResult = { message: string };
 
 const signup = async (
     username: string,
     password: string,
     email: string
-): Promise<AuthResult> => {
+): Promise<SignUpResult> => {
     const data = new URLSearchParams();
     data.append("username", username);
     data.append("password", password);
@@ -32,7 +33,18 @@ const signup = async (
     }
 };
 
-const signin = async (username: string, password: string) => {
+type LoginResult = {
+    id: string;
+    username: string;
+    email: string;
+    roles: string[];
+    accessToken: string;
+};
+
+const login = async (
+    username: string,
+    password: string
+): Promise<LoginResult> => {
     const data = new URLSearchParams();
     data.append("username", username);
     data.append("password", password);
@@ -40,10 +52,11 @@ const signin = async (username: string, password: string) => {
         method: "post",
         body: data,
     };
-    const response = await fetch(ROOT_ENDPOINT + SIGNUP_PATH, reqOption);
+    const response = await fetch(ROOT_ENDPOINT + SIGNIN_PATH, reqOption);
     const json = await response.json();
     if (!response.ok) throw json;
     _isLogin = true;
+    _userStatus = json;
     return json;
 };
 
@@ -51,8 +64,11 @@ const Auth = {
     get isLogin() {
         return false;
     },
+    get userStatus() {
+        return _userStatus;
+    },
     signup,
-    signin,
+    login,
 };
 
 export default Auth;
