@@ -17,7 +17,7 @@ export const checkDuplicateUsernameOrEmail = (
         }
         if (user) {
             res.status(400).send({
-                message: "ユーザー名は既に使われています。",
+                message: "The username is already taken.",
             });
             return;
         }
@@ -32,7 +32,7 @@ export const checkDuplicateUsernameOrEmail = (
             }
             if (user) {
                 res.status(400).send({
-                    message: "メールアドレスは既に使われています。",
+                    message: "The email adress is already in use.",
                 });
                 return;
             }

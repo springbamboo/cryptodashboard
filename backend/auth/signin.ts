@@ -52,7 +52,7 @@ export default (req: Request, res: Response) => {
                 username: user.username,
                 email: user.email,
                 roles: authorities,
-                accessTolen: token,
+                accessToken: token,
             });
         });
 };

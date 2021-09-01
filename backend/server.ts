@@ -14,7 +14,7 @@ const { DB_HOST, DB_USER, DB_PASS, DB_TABLE } = process.env;
 
 const app = express();
 const corsOptions = {
-    origin: "http://localhost:8081",
+    origin: "http://localhost:3000",
 };
 
 app.use(cors(corsOptions));
