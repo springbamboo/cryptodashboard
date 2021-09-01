@@ -28,7 +28,11 @@ type PageProps = {
 export const getStaticPaths: GetStaticPaths<PathParams> = async () => {
   return {
     paths: [ // pathsに追加することで localhost:30000/posts/id のページにアクセス可能
-      { params: { id: 'BTCUSDT.bybit' } }, // パスは BTCUSDT.[exchange名] や ETHUSDT.[exchange名] などの形式
+      { params: { id: 'binance' } }, // パスは BTCUSDT.[exchange名] や ETHUSDT.[exchange名] などの形式
+      { params: { id: 'bybit' } },
+      { params: { id: 'okex' } },
+      { params: { id: 'huobi' } },
+      { params: { id: 'bitfinex' } },
     ],
     fallback: false  // 上記以外のパスでアクセスした場合は 404 ページにする
   }
