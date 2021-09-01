@@ -5,40 +5,52 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
 });
 
-export default function BasicTable() {
+const OrderBook = () => {
+    const [xAsk, setXAsk] = useState([]);
+    const [yAsk, setYAsk] = useState([]);
+    useEffect(() => {
+        setInterval(()=>{
+            const promise = axios("http://localhost:5400/binance/btcusdt");
+            promise.then((res) => {
+                // console.log(res.data);
+                setXAsk(res.data[0]);
+                setYAsk(res.data[1]);
+            });
+        },2000)
+    },[]);
     const series = [
         {
-            data: [400, 430, 448, 470, 540, 580, 690],
+            data: yAsk,
         },
     ];
     const options = {
         chart: {
             type: "bar",
-            height: 350,
+            height: 1000
         },
-        dataLabels:{
-            enabled: true
+        dataLabels: {
+            enabled: true,
         },
-        plotOptions:{
+        plotOptions: {
             bar: {
-              horizontal: true,
-            }
+                horizontal: true,
+            },
         },
-        xaxis:{
-            categories: ['June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        xaxis: {
+            categories: xAsk,
         },
-        grid:{
+        grid: {
             xaxis: {
-              lines: {
-                show: true
-              }
-            }
+                lines: {
+                    show: true,
+                },
+            },
         },
-        yaxis:{
+        yaxis: {
             reversed: true,
             axisTicks: {
-              show: true
-            }
+                show: true,
+            },
         },
         theme: {
             mode: "dark",
@@ -49,18 +61,18 @@ export default function BasicTable() {
                 shadeTo: "light",
                 shadeIntensity: 0.65,
             },
-        }
+        },
     };
     return (
-    <div id = "chart">
-    <ReactApexChart
-    //  @ts-ignore
-    options={options}
-    series={series}
-    type="bar"
-    height={350} />
-    </div>
-
-
+        <div id="chart">
+            <ReactApexChart
+                //  @ts-ignore
+                options={options}
+                series={series}
+                type="bar"
+                height={1000}
+        />
+        </div>
     );
-}
+};
+export default OrderBook;
