@@ -1,20 +1,14 @@
-import WebSocket from "ws";
 import axios from "axios";
 import express from "express";
-
 const app = express();
-
-const ws: WebSocket = new WebSocket(" wss://fstream.binance.com/ws");
-const httpEndPoint: string = "https://fapi.binance.com";
-const httpKline: string =
-    "/fapi/v1/klines?symbol=btcusdt&interval=1m&limit=500";
-
 app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
 });
-
 app.get("/binance/btcusdt", (req, res) => {
+    const httpEndPoint: string = "https://fapi.binance.com";
+    const httpKline: string =
+        "/fapi/v1/klines?symbol=btcusdt&interval=1m&limit=500";
     const promise = axios.get(httpEndPoint + httpKline);
     promise.then((response: { data: any }) => {
         const newData = response.data;
@@ -31,4 +25,5 @@ app.get("/binance/btcusdt", (req, res) => {
         res.end(JSON.stringify(cdata));
     });
 });
+
 app.listen(5000);
