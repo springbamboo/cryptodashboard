@@ -62,14 +62,14 @@ const BookPage: React.FC<PageProps> = ({ title, apiData }: PageProps) => {
         }, 2000);
     }, []);
     useEffect(() => {
-        // setInterval(() => {
+        setInterval(() => {
             const promise = axios(`http://localhost:5000/${title}/btcusdt`);
             promise.then((res)=>{
                 setKline(res.data);
             })
             .catch((err) => console.log(err));
-        // })
-    })
+        },2000);
+    },[])
     return (
         <>
             <Head>
