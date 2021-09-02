@@ -1,0 +1,21 @@
+.paper {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avater {
+    margin: 8px;
+    background-color: #000;
+}
+
+.form {
+    width: 100%;
+    margin-top: 24px;
+}
+
+.submit {
+    margin: 24px 0 16px;
+    text-align: center;
+}

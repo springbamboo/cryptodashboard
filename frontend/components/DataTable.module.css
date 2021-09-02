@@ -1,0 +1,52 @@
+.root {
+    padding: 20px;
+}
+.table {
+    /* minWidth: 650px, */
+}
+.currency {
+    margin-bottom: 20px;
+}
+.currencyName {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.currency .negative {
+    color: #ff0088;
+    background-color: #88004488;
+}
+.currency .positive {
+    color: #00ff00;
+    background-color: #00880088;
+}
+.currency .default {
+    color: unset;
+}
+
+.logoParent {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.logoSpace {
+    width: 5px;
+    /* height: 10px; */
+}
+
+.exchange:hover {
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.blur {
+  filter: blur(6px);
+  -webkit-filter: blur(6px);
+}
