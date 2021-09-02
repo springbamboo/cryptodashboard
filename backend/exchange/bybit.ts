@@ -27,19 +27,23 @@ const pairs: { [key: string]: Coindata } = {
 const coinNameHttp = ["BTCUSDT", "ETHUSDT", "XRPUSDT"];
 
 setInterval(() => {
-    for (let i = 0; i < coinNameHttp.length; i++) {
-        pair = coinNameHttp[i];
-        let http_ratio = `/v2/public/account-ratio?symbol=${pair}&period=5min`;
-        request(http_endPoint + http_ratio, (err, response, payload) => {
-            for (let j in pairs) {
-                if (j === JSON.parse(payload).result[0].symbol)
-                    // console.log(JSON.parse(payload).result[0])
-                    pairs[JSON.parse(payload).result[0].symbol].ratio.long =
-                        JSON.parse(payload).result[0].buy_ratio;
-                pairs[JSON.parse(payload).result[0].symbol].ratio.short =
-                    JSON.parse(payload).result[0].sell_ratio;
-            }
-        });
+    try {
+        for (let i = 0; i < coinNameHttp.length; i++) {
+            pair = coinNameHttp[i];
+            let http_ratio = `/v2/public/account-ratio?symbol=${pair}&period=5min`;
+            request(http_endPoint + http_ratio, (err, response, payload) => {
+                for (let j in pairs) {
+                    if (j === JSON.parse(payload).result[0].symbol)
+                        // console.log(JSON.parse(payload).result[0])
+                        pairs[JSON.parse(payload).result[0].symbol].ratio.long =
+                            JSON.parse(payload).result[0].buy_ratio;
+                    pairs[JSON.parse(payload).result[0].symbol].ratio.short =
+                        JSON.parse(payload).result[0].sell_ratio;
+                }
+            });
+        }
+    } catch (e) {
+        console.log(e);
     }
 }, 2000);
 
