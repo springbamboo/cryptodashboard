@@ -2,7 +2,7 @@ let _isLogin: boolean = false;
 let _userStatus: LoginResult | null = null;
 const ROOT_ENDPOINT = "http://localhost:8080";
 const SIGNUP_PATH = "/api/auth/signup";
-const SIGNIN_PATH = "/api/auth/signIN";
+const SIGNIN_PATH = "/api/auth/signin";
 
 type SignUpResult = { message: string };
 
