@@ -62,7 +62,7 @@ const login = async (
 
 const Auth = {
     get isLogin() {
-        return false;
+        return _isLogin;
     },
     get userStatus() {
         return _userStatus;

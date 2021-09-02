@@ -7,6 +7,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Link from "next/link";
+import Auth from "../services/auth";
+import { AccountCircle } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,6 +42,15 @@ export default function ButtonAppBar() {
                     <Button>Home</Button>
                     <Button>Our API</Button>
                     <Button>About</Button>
+                    {Auth.isLogin ? (
+                        <Button startIcon={<AccountCircle />}>
+                            {Auth.userStatus.username}
+                        </Button>
+                    ) : (
+                        <Link href="/login" passHref>
+                            <Button>Login</Button>
+                        </Link>
+                    )}
                 </Toolbar>
             </AppBar>
         </div>
