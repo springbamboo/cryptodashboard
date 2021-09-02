@@ -71,7 +71,7 @@ app.get("/okex/:pair", (req, res) => {
                 parseFloat(d[1]),
                 parseFloat(d[2]),
                 parseFloat(d[3]),
-                // parseFloat(d[4])
+                parseFloat(d[4])
             ];
         });
         res.end(JSON.stringify(cdata));
