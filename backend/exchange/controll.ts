@@ -7,7 +7,7 @@ import { huobiEvent } from "./huobi";
 import { okexEvent } from "./okex";
 
 const PORT = 5001;
-const server = new WebSocket.Server({ port: 5001, path: "/home" });
+const server = new WebSocket.Server({ port: PORT, path: "/home" });
 console.log(`Websocket server listening on port ${PORT}`);
 
 let clients = new Set<WebSocket>();

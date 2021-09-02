@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import authRoutes from "./auth/routes";
 import apiRoutes from "./api/routes";
 import dotenv from "dotenv";
+import './exchange/controll';
+
 const DEResult = dotenv.config();
 if (DEResult.error) {
     console.log(".envファイルの読み込みに失敗。");
@@ -71,5 +73,5 @@ apiRoutes(app);
 const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => {
-    console.log(`Server is runnning: http://localhost:${PORT}/`);
+    console.log(`HTTP Server is listening on ${PORT}`);
 });
