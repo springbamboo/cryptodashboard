@@ -1,6 +1,30 @@
 {
   "scripts": {
     "format": "npm run format --prefix backend; npm run format --prefix frontend",
-    "dev": "npm run start --prefix backend & npm run dev --prefix frontend"
-  }
+    "dev": "npm run start --prefix backend & npm run dev --prefix frontend",
+    "start": "npm run format --prefix backend; "
+  },
+  "name": "crypto-data-plaform",
+  "description": "A project for UEQ camp",
+  "version": "1.0.0",
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
+  },
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ueqareer/ueq_camp_202106_team_c.git"
+  },
+  "keywords": [],
+  "author": "01_397 <01397dev@gmail.com> (https://github.com/01397)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ueqareer/ueq_camp_202106_team_c/issues"
+  },
+  "homepage": "https://github.com/ueqareer/ueq_camp_202106_team_c#readme"
 }

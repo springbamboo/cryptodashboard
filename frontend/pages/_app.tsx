@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import React from "react";
 import { AppProps } from "next/dist/next-server/lib/router/router";
 import { CssBaseline, ThemeProvider } from "@material-ui/core";
-import theme from "./theme";
+import theme from "../services/theme";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
     React.useEffect(() => {

@@ -6,7 +6,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import useWsService from "../services/front_back_socket";
+// import useWsService from "../services/front_back_socket";
 import { useState, useEffect } from "react";
 
 export default function BasicTable() {
