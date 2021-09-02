@@ -28,14 +28,14 @@ type PageProps = {
 
 export const getStaticPaths: GetStaticPaths<PathParams> = async () => {
   return {
-    paths: [ 
-      { params: { id: 'binance' } }, 
+    paths: [
+      { params: { id: 'binance' } },
       { params: { id: 'bybit' } },
       { params: { id: 'okex' } },
       { params: { id: 'huobi' } },
       { params: { id: 'bitfinex' } },
     ],
-    fallback: false  
+    fallback: false
   }
 }
 export const getStaticProps: GetStaticProps<PageProps> = async context => {
@@ -50,16 +50,16 @@ export const getStaticProps: GetStaticProps<PageProps> = async context => {
 const BookPage: React.FC<PageProps> = ({ title, apiData }: PageProps) => {
   const theme = useTheme();
   const [orderbook, setOrderBook] = useState([[],[],[],[]]);
-  // setInterval(()=>{
-    useEffect(() => {
+  useEffect(() => {
+      setInterval(()=>{
       const promise = axios(`http://localhost:5400/${title}/btcusdt`);
       promise
           .then((res) => {
             setOrderBook(res.data);
           })
           .catch((err) => console.log(err));
+          },2000)
   },[]);
-  // },2000)
   return (
       <>
         <Head>
