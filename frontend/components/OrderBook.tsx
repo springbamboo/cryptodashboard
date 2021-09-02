@@ -5,8 +5,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
 });
 
-const OrderBook = (props:any) => {
-    const data:number[][] = props.data;
+const OrderBook = (props: any) => {
+    const data: number[][] = props.data;
     // console.log(data[1]);
     const series = [
         {
@@ -16,7 +16,7 @@ const OrderBook = (props:any) => {
     const options = {
         chart: {
             type: "bar",
-            height: 600
+            height: 600,
         },
         dataLabels: {
             enabled: true,
@@ -61,7 +61,7 @@ const OrderBook = (props:any) => {
                 series={series}
                 type="bar"
                 height={600}
-        />
+            />
         </div>
     );
 };
