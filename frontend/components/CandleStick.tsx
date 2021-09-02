@@ -5,22 +5,22 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
 });
 
-const CandleStick = () => {
-    const [klineDdata, setKlineData] = useState([]);
+const CandleStick = (props) => {
+    // const [klineDdata, setKlineData] = useState([]);
     const series = [
         {
-            data: klineDdata,
+            data: props.data,
         },
     ];
 
-    useEffect(() => {
-        const promise = axios("http://localhost:5000/binance/btcusdt");
-        promise
-            .then((res) => {
-                setKlineData(res.data);
-            })
-            .catch((err) => console.log(err));
-    }, []);
+    // useEffect(() => {
+    //     const promise = axios("http://localhost:5000/binance/btcusdt");
+    //     promise
+    //         .then((res) => {
+    //             setKlineData(res.data);
+    //         })
+    //         .catch((err) => console.log(err));
+    // }, []);
 
     const options = {
         chart: {
