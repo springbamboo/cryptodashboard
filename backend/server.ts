@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import authRoutes from "./auth/routes";
 import apiRoutes from "./api/routes";
 import dotenv from "dotenv";
-import './exchange/controll';
+import "./exchange/controll";
 
 const DEResult = dotenv.config();
 if (DEResult.error) {
