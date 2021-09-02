@@ -1,4 +1,4 @@
-import { Coindata } from "./cointype";
+import { CoindataObj } from "../../share/model";
 import WebSocket from "ws";
 import { binanceEvent } from "./binance";
 import { bybitEvent } from "./bybit";
@@ -6,12 +6,14 @@ import { bitfinexEvent } from "./bitfinex";
 import { huobiEvent } from "./huobi";
 import { okexEvent } from "./okex";
 
+const PORT = 5001;
 const server = new WebSocket.Server({ port: 5001, path: "/home" });
+console.log(`Websocket server listening on port ${PORT}`);
 
-let clients: WebSocket[] = [];
+let clients = new Set<WebSocket>();
 
 // クライアント初期接続時に送るために一時保管
-const tempPairs: { [coin: string]: { [key: string]: Coindata } | null } = {
+const tempPairs: { [coin: string]: CoindataObj | null } = {
     binance: null,
     bybit: null,
     bitfinex: null,
@@ -27,8 +29,11 @@ server.on("connection", (ws: WebSocket) => {
         ws.send(JSON.stringify(tempPairs[key]));
     }
     // 接続を配列に追加
-    clients.push(ws);
-    console.log(clients.length);
+    clients.add(ws);
+    console.log(`Connections: ${clients.size}`);
+    ws.on("close", () => {
+        console.log(`Connections: ${clients.size}`);
+    });
 });
 
 const eventEmitterList = [
@@ -40,13 +45,13 @@ const eventEmitterList = [
 ];
 
 for (const eventEmitter of eventEmitterList) {
-    eventEmitter.on("change", (pairs: { [key: string]: Coindata }) => {
+    eventEmitter.on("change", (pairs: CoindataObj) => {
         // 一時保管データの更新
         const exchangeName: string = pairs["BTCUSDT"].exchange;
         tempPairs[exchangeName] = pairs;
         // クライアントへ送信
-        for (let i = 0; i < clients.length; i++) {
-            clients[i].send(JSON.stringify(pairs));
+        for (const client of clients) {
+            client.send(JSON.stringify(pairs));
         }
     });
 }
