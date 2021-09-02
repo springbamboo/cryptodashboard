@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { CoindataObj } from "../../share/model";
 
 const WS_URL_BASE = "ws://localhost:5001";

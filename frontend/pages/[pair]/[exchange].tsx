@@ -1,19 +1,16 @@
 // 詳細ページ
 import React from "react";
 import { useEffect, useState } from "react";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import OrderBook from "../../components/OrderBook";
 import OrderBook2 from "../../components/OrderBook2";
-import LargeTrades from "../../components/LargeTrades";
 import styles from "../binance.module.css";
 import CandleStick from "../../components/CandleStick";
 import Head from "next/head";
-import { GetStaticPaths, GetStaticProps } from "next";
 import axios from "axios";
 import { useRouter } from "next/router";
 
