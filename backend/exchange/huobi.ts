@@ -3,10 +3,11 @@ import pako from "pako";
 import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import request from "request";
+import EventEmitter from "events";
+export const huobiEvent = new EventEmitter();
 
 const ws: WebSocket = new WebSocket("wss://api.huobi.pro/ws");
 const exchange: string = "huobi";
-const server = new WebSocket.Server({ port: 5001 });
 
 const http_endPoint = "https://api.hbdm.com/linear-swap-api/v1";
 const coinNameHttp = ["BTC-USDT", "ETH-USDT", "XRP-USDT"];
@@ -16,8 +17,6 @@ const pairs: { [key: string]: Coindata } = {
     ETHUSDT: generateCoindata("ETHUSDT", exchange),
     XRPUSDT: generateCoindata("XRPUSDT", exchange),
 };
-
-let clients: WebSocket[] = [];
 
 setInterval(() => {
     for (let i = 0; i < coinNameHttp.length; i++) {
@@ -34,11 +33,6 @@ setInterval(() => {
         });
     }
 }, 1000);
-
-server.on("connection", (ws) => {
-    clients.push(ws);
-    console.log(clients.length);
-});
 
 ws.on("open", () => {
     const messageBTC: string = JSON.stringify({
@@ -75,9 +69,7 @@ ws.on("message", (data: Buffer) => {
             }
         }
     }
-    for (let i = 0; i < clients.length; i++) {
-        clients[i].send(JSON.stringify(pairs));
-    }
+    huobiEvent.emit("change", pairs);
 });
 
 for (let i = 0; i < coinNameHttp.length; i++) {

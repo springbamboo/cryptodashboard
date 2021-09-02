@@ -2,10 +2,10 @@ import WebSocket from "ws";
 import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import request from "request";
+import EventEmitter from "events";
+export const bitfinexEvent = new EventEmitter();
 
 const ws: WebSocket = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
-const server = new WebSocket.Server({ port: 5001 });
-
 const exchange: string = "bitfinex";
 
 const http_endPoint = "https://api-pub.bitfinex.com/v2/";
@@ -47,11 +47,6 @@ setInterval(() => {
             coinData[pair][2] / (coinData[pair][1] + coinData[pair][2]); // shortの割合計算
     }
 }, 1000);
-
-server.on("connection", (ws) => {
-    clients.push(ws);
-    console.log(clients.length);
-});
 
 ws.on("open", () => {
     for (let key in coinData) {
@@ -104,8 +99,5 @@ ws.on("message", (data: string) => {
         }
     }
 
-    for (let i = 0; i < clients.length; i++) {
-        clients[i].send(JSON.stringify(pairs));
-    }
-    console.log(JSON.parse(payload));
+    bitfinexEvent.emit("change", pairs);
 });
