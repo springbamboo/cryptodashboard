@@ -9,15 +9,15 @@ const OrderBook = () => {
     const [xAsk, setXAsk] = useState([]);
     const [yAsk, setYAsk] = useState([]);
     useEffect(() => {
-        setInterval(()=>{
+        setInterval(() => {
             const promise = axios("http://localhost:5400/binance/btcusdt");
             promise.then((res) => {
                 // console.log(res.data);
                 setXAsk(res.data[0]);
                 setYAsk(res.data[1]);
             });
-        },2000)
-    },[]);
+        }, 2000);
+    }, []);
     const series = [
         {
             data: yAsk,
@@ -26,7 +26,7 @@ const OrderBook = () => {
     const options = {
         chart: {
             type: "bar",
-            height: 1000
+            height: 1000,
         },
         dataLabels: {
             enabled: true,
@@ -71,7 +71,7 @@ const OrderBook = () => {
                 series={series}
                 type="bar"
                 height={1000}
-        />
+            />
         </div>
     );
 };

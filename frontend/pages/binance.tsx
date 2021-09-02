@@ -23,7 +23,7 @@ export default function Home() {
             <div>
                 <div className={styles.content}>
                     <Grid container spacing={3}>
-                        <Grid item xs={12} >
+                        <Grid item xs={12}>
                             <Paper style={{ padding: theme.spacing(2) }}>
                                 <CandleStick />
                             </Paper>
