@@ -50,6 +50,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
 const BookPage: React.FC<PageProps> = ({ title, apiData }: PageProps) => {
     const theme = useTheme();
     const [orderbook, setOrderBook] = useState([[], [], [], []]);
+    const [kline, setKline] = useState([[], [], [], [], []]);
     useEffect(() => {
         setInterval(() => {
             const promise = axios(`http://localhost:5400/${title}/btcusdt`);
@@ -60,6 +61,15 @@ const BookPage: React.FC<PageProps> = ({ title, apiData }: PageProps) => {
                 .catch((err) => console.log(err));
         }, 2000);
     }, []);
+    useEffect(() => {
+        setInterval(() => {
+            const promise = axios(`http://localhost:5000/${title}/btcusdt`);
+            promise.then((res)=>{
+                setKline(res.data);
+            })
+            .catch((err) => console.log(err));
+        },2000);
+    },[])
     return (
         <>
             <Head>
@@ -74,7 +84,7 @@ const BookPage: React.FC<PageProps> = ({ title, apiData }: PageProps) => {
                         <Grid container spacing={3}>
                             <Grid item xs={12}>
                                 <Paper style={{ padding: theme.spacing(2) }}>
-                                    <CandleStick />
+                                    <CandleStick data={kline}/>
                                 </Paper>
                             </Grid>
                             <Grid item xs={6}>
