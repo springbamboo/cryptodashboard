@@ -71,7 +71,7 @@ app.get("/okex/:pair", (req, res) => {
                 parseFloat(d[1]),
                 parseFloat(d[2]),
                 parseFloat(d[3]),
-                parseFloat(d[4])
+                parseFloat(d[4]),
             ];
         });
         res.end(JSON.stringify(cdata));
@@ -86,7 +86,7 @@ app.get("/bitfinex/:pair", (req, res) => {
     const promise = axios.get(bitfinexEndPoint + bitfinexKline);
     promise.then((response) => {
         const newData = response.data;
-        const cdata = newData.map((d:number[])=>{
+        const cdata = newData.map((d: number[]) => {
             return [
                 d[0],
                 d[1],
@@ -94,30 +94,30 @@ app.get("/bitfinex/:pair", (req, res) => {
                 d[2],
                 d[4],
                 // d[5]
-            ]
+            ];
         });
         res.end(JSON.stringify(cdata));
     });
 });
 app.get("/bybit/:pair", (req, res) => {
     const pairName = req.params.pair;
-    const newPairName = pairName.toUpperCase()
+    const newPairName = pairName.toUpperCase();
     // console.log(pairName);
     const httpEndPoint: string = "https://api.bybit.com";
     const httpKline: string = `/spot/quote/v1/kline?symbol=${newPairName}&interval=1m&limit=200`;
     const promise = axios.get(httpEndPoint + httpKline);
     promise.then((response) => {
-         const newData = response.data.result;
-         const cdata = newData.map((d: string[]) => {
-             return [
-                 d[0],
-                 parseFloat(d[1]),
-                 parseFloat(d[2]),
-                 parseFloat(d[3]),
-                 parseFloat(d[4]),
-             ];
-         });
-         res.end(JSON.stringify(cdata));
-  });
+        const newData = response.data.result;
+        const cdata = newData.map((d: string[]) => {
+            return [
+                d[0],
+                parseFloat(d[1]),
+                parseFloat(d[2]),
+                parseFloat(d[3]),
+                parseFloat(d[4]),
+            ];
+        });
+        res.end(JSON.stringify(cdata));
+    });
 });
 app.listen(5000);
