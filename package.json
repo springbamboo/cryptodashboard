@@ -3,7 +3,7 @@
     "format": "npm run format --prefix backend; npm run format --prefix frontend",
     "dev": "npm run dev --prefix backend & npm run dev --prefix frontend",
     "build": "npm run build --prefix backend; npm run build --prefix frontend",
-    "start": "npm run start --prefix backend; npm run start --prefix frontend"
+    "start": "npm run start --prefix backend & npm run start --prefix frontend"
   },
   "name": "crypto-data-plaform",
   "description": "A project for UEQ camp",
@@ -12,7 +12,6 @@
     "node": "16.x",
     "npm": "7.x"
   },
-  "main": "index.js",
   "directories": {
     "doc": "docs"
   },
