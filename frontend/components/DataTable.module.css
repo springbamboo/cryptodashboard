@@ -45,3 +45,8 @@
     text-decoration: underline;
     font-weight: bold;
 }
+
+.blur {
+  filter: blur(6px);
+  -webkit-filter: blur(6px);
+}

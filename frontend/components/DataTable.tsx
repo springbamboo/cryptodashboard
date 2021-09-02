@@ -12,10 +12,10 @@ import styles from "./DataTable.module.css";
 import millify from "millify";
 import { Coindata, CoindataObj } from "../../share/model";
 import { ValueScale } from "@devexpress/dx-react-chart";
-import Link from "next/link"
+import Link from "next/link";
 
 import Image from "next/image";
-
+import Auth from "../services/auth";
 
 //サーバーから渡されるデータ
 interface CoindataId extends Coindata {
@@ -191,26 +191,31 @@ export default function BasicTable() {
         return Object.entries(rowsData)
             .filter(([key, val]) => val.Pair === symbol)
             .map(([key, val], i) => (
-                <TableRow key={key}>
+                <TableRow
+                    key={key}
+                    className={Auth.isLogin || i == 0 ? "" : styles.blur}
+                >
                     <TableCell component="th" scope="row">
                         {val.Rank}
                     </TableCell>
-                        <TableCell align="left">
-                            <div className={styles.logoParent}>
-                                <Image
-                                    src={`/images/${val.Exchange}.png`}
-                                    width={20}
-                                    height={20}
-                                    alt="Logo"
-                                />
+                    <TableCell align="left">
+                        <div className={styles.logoParent}>
+                            <Image
+                                src={`/images/${val.Exchange}.png`}
+                                width={20}
+                                height={20}
+                                alt="Logo"
+                            />
                             <span className={styles.logoSpace}></span>
-                            <Link href={`${symbol.toLowerCase()}/${val.Exchange}`}>
+                            <Link
+                                href={`${symbol.toLowerCase()}/${val.Exchange}`}
+                            >
                                 <a className={styles.exchange}>
                                     {val.Exchange}
                                 </a>
                             </Link>
-                            </div>
-                        </TableCell>
+                        </div>
+                    </TableCell>
                     <TableCell align="left">{val.Pair}</TableCell>
                     <TableCell
                         align="left"
