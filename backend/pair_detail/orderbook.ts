@@ -1,13 +1,13 @@
 import axios from "axios";
 import express from "express";
 const app = express();
-const limit = 1000;
-// bid 大→小  ask 小→大
+// bid(buy) 大→小  ask(sell) 小→大
 app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     next();
 });
 app.get(`/binance/:pair`, (req, res) => {
+    const limit = 100;
     const httpEndPoint: string = "https://fapi.binance.com";
     const httpOrderBook: string = `/fapi/v1/depth?symbol=${req.params.pair}&limit=${limit}`;
     const promise = axios.get(httpEndPoint + httpOrderBook);
@@ -87,6 +87,107 @@ app.get(`/binance/:pair`, (req, res) => {
             ybid[j] = parseFloat(
                 (Math.floor(ybid[j] * 1000) / 1000).toFixed(3)
             );
+        }
+        const orderbook = [xask, yask, xbid, ybid];
+        res.end(JSON.stringify(orderbook));
+    });
+});
+app.get("/bybit/:pair", (req, res) => {
+    const pairName: string = req.params.pair;
+    const bybitLimit: number = 200;
+    const fix = pairName === "xrpusdt" ? 3 : 1;
+    const bybitEndPoint: string = "https://api.bybit.com";
+    const bybitOrderBook: string = `/spot/quote/v1/depth/merged?symbol=${pairName.toUpperCase()}&scale=${fix}&limit=${bybitLimit}`;
+    const promise = axios.get(bybitEndPoint + bybitOrderBook);
+    promise.then((response) => {
+        const xbid: number[] = [],
+            ybid: number[] = [],
+            xask: number[] = [],
+            yask: number[] = [];
+        for (let i = response.data.result.bids.length - 1; i >= 0; i--) {
+            xbid[i] = parseFloat(response.data.result.bids[i][0]);
+            ybid[i] = parseFloat(response.data.result.bids[i][1]);
+        }
+        for (let j = 0; j < response.data.result.asks.length; j++) {
+            xask[j] = parseFloat(response.data.result.asks[j][0]);
+            yask[j] = parseFloat(response.data.result.asks[j][1]);
+        }
+        const bybitOrder = [xbid, ybid, xask, yask];
+        res.end(JSON.stringify(bybitOrder));
+    });
+});
+app.get("/huobi/:pair", (req, res) => {
+    const pairName = req.params.pair;
+    const newPairName = pairName.slice(0, 3) + "-" + pairName.slice(3);
+    const huobiEndPoint = "https://api.hbdm.com";
+    const huobiOrderBook = `/linear-swap-ex/market/depth?contract_code=${newPairName}&type=step4`;
+    const promise = axios.get(huobiEndPoint + huobiOrderBook);
+    promise.then((response) => {
+        const xask: number[] = [],
+            yask: number[] = [],
+            xbid: number[] = [],
+            ybid: number[] = [];
+        for (let i = 0; i < response.data.tick.asks.length; i++) {
+            xask[i] = response.data.tick.asks[i][0];
+            yask[i] = response.data.tick.asks[i][1];
+        }
+        for (let j = 0; j < response.data.tick.bids.length; j++) {
+            xbid[j] = response.data.tick.bids[j][0];
+            ybid[j] = response.data.tick.bids[j][1];
+        }
+        const orderbook = [xask, yask, xbid, ybid];
+        res.end(JSON.stringify(orderbook));
+    });
+});
+app.get("/bitfinex/:pair", (req, res) => {
+    const pairName: string = req.params.pair;
+    const newPainName =
+        pairName.slice(-1) + pairName.toUpperCase().slice(0, -1);
+    const bitfinexEndPoint: string = "https://api-pub.bitfinex.com/v2/";
+    const bitfinexOrderBook = `book/${newPainName}/P0`;
+    const promise = axios(bitfinexEndPoint + bitfinexOrderBook);
+    promise.then((response) => {
+        const xask: number[] = [],
+            yask: number[] = [],
+            xbid: number[] = [],
+            ybid: number[] = [];
+        for (let i = 0; i < response.data.length; i++) {
+            if (response.data[i][2] > 0) {
+                xask.push(response.data[i][0]);
+                yask.push(response.data[i][2]);
+            } else if (response.data[i][2] < 0) {
+                xbid.push(response.data[i][0]);
+                ybid.push(Math.abs(response.data[i][2]));
+            }
+        }
+        const orderbook = [xask, yask, xbid, ybid];
+        res.end(JSON.stringify(orderbook));
+    });
+});
+app.get("/okex/:pair", (req, res) => {
+    const limit = 50;
+    const pairName = req.params.pair;
+    const depth = pairName === "xrpusdt" ? 0.0001 : 0.1;
+    const newPairName =
+        pairName.toUpperCase().slice(0, 3) +
+        "-" +
+        pairName.toUpperCase().slice(3, 7) +
+        "-SWAP";
+    const httpEndPont = "https://aws.okex.com";
+    const okexOrder = `/api/swap/v3/instruments/${newPairName}/depth?depth=${depth}&size=${limit}`;
+    const promise = axios(httpEndPont + okexOrder);
+    promise.then((response) => {
+        const xask: number[] = [],
+            yask: number[] = [],
+            xbid: number[] = [],
+            ybid: number[] = [];
+        for (let i = 0; i < response.data.asks.length; i++) {
+            xask[i] = parseFloat(response.data.asks[i][0]);
+            yask[i] = parseFloat(response.data.asks[i][1]);
+        }
+        for (let j = 0; j < response.data.bids.length; j++) {
+            xbid[j] = parseFloat(response.data.bids[j][0]);
+            ybid[j] = parseFloat(response.data.bids[j][1]);
         }
         const orderbook = [xask, yask, xbid, ybid];
         res.end(JSON.stringify(orderbook));

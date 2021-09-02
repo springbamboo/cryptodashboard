@@ -5,12 +5,12 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
 });
 
-const OrderBook = (props: any) => {
+const OrderBook2 = (props: any) => {
     const data: number[][] = props.data;
     // console.log(data[1]);
     const series = [
         {
-            data: data[1],
+            data: data[3],
         },
     ];
     const options = {
@@ -27,7 +27,7 @@ const OrderBook = (props: any) => {
             },
         },
         xaxis: {
-            categories: data[0],
+            categories: data[2],
         },
         grid: {
             xaxis: {
@@ -65,4 +65,4 @@ const OrderBook = (props: any) => {
         </div>
     );
 };
-export default OrderBook;
+export default OrderBook2;
