@@ -31,6 +31,17 @@
     color: unset;
 }
 
-.logo {
-    margin-right: 10px; /* 効いてない */
+.logoParent {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+}
+.logoSpace {
+    width: 5px;
+    /* height: 10px; */
+}
+
+.exchange:hover {
+    text-decoration: underline;
+    font-weight: bold;
 }

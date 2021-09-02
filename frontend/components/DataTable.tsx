@@ -12,11 +12,10 @@ import styles from "./DataTable.module.css";
 import millify from "millify";
 import { Coindata, CoindataObj } from "../../share/model";
 import { ValueScale } from "@devexpress/dx-react-chart";
+import Link from "next/link"
 
 import Image from "next/image";
-import ImageBTC from "../images/bitcoin.png";
-import ImageETH from "../images/ethereum.png";
-import ImageXRP from "../images/xrp.png";
+
 
 //サーバーから渡されるデータ
 interface CoindataId extends Coindata {
@@ -196,7 +195,22 @@ export default function BasicTable() {
                     <TableCell component="th" scope="row">
                         {val.Rank}
                     </TableCell>
-                    <TableCell align="left">{val.Exchange}</TableCell>
+                        <TableCell align="left">
+                            <div className={styles.logoParent}>
+                                <Image
+                                    src={`/images/${val.Exchange}.png`}
+                                    width={20}
+                                    height={20}
+                                    alt="Logo"
+                                />
+                            <span className={styles.logoSpace}></span>
+                            <Link href={`${symbol.toLowerCase()}/${val.Exchange}`}>
+                                <a className={styles.exchange}>
+                                    {val.Exchange}
+                                </a>
+                            </Link>
+                            </div>
+                        </TableCell>
                     <TableCell align="left">{val.Pair}</TableCell>
                     <TableCell
                         align="left"
@@ -243,12 +257,12 @@ export default function BasicTable() {
             <TableContainer className={styles.currency} component={Paper}>
                 <div className={styles.currencyName} id="bitcoin">
                     <Image
-                        src={ImageBTC}
-                        className={styles.logo}
+                        src="/images/BTCUSDT.png"
                         width={20}
                         height={20}
                         alt="Logo"
                     />
+                    <div className={styles.logoSpace}></div>
                     BITCOIN
                 </div>
                 <Table className={styles.table} aria-label="simple table">
@@ -271,12 +285,12 @@ export default function BasicTable() {
             <TableContainer className={styles.currency} component={Paper}>
                 <div className={styles.currencyName} id="ethereum">
                     <Image
-                        src={ImageETH}
-                        className={styles.logo}
+                        src="/images/ETHUSDT.png"
                         width={20}
                         height={20}
                         alt="Logo"
                     />
+                    <div className={styles.logoSpace}></div>
                     ETHEREUM
                 </div>
                 <Table className={styles.table} aria-label="simple table">
@@ -300,12 +314,12 @@ export default function BasicTable() {
             <TableContainer className={styles.currency} component={Paper}>
                 <div className={styles.currencyName} id="ripple">
                     <Image
-                        src={ImageXRP}
-                        className={styles.logo}
+                        src="/images/XRPUSDT.png"
                         width={20}
                         height={20}
                         alt="Logo"
                     />
+                    <div className={styles.logoSpace}></div>
                     RIPPLE
                 </div>
                 <Table className={styles.table} aria-label="simple table">
