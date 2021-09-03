@@ -42,6 +42,7 @@ const binance = async (req: NextApiRequest, res: NextApiResponse) => {
     const yask: number[] = new Array(widthAsk).fill(0);
     let index_bid = 0;
     for (let i = bidOne; i >= bidLast; i -= delta) {
+    // for (let i = bidLast; i <= bidOne; i += delta) {
         xbid.push(i);
         for (let j = 0; j < limit; j++) {
             if (

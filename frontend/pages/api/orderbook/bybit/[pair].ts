@@ -23,7 +23,7 @@ const bybit = async (req: NextApiRequest, res: NextApiResponse) => {
         xask[j] = parseFloat(response.data.result.asks[j][0]);
         yask[j] = parseFloat(response.data.result.asks[j][1]);
     }
-    const bybitOrder = [xbid, ybid, xask, yask];
+    const bybitOrder = [xask, yask, xbid, ybid];
     return res.status(200).json(bybitOrder);
 };
 

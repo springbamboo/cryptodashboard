@@ -15,6 +15,12 @@ const CandleStick = (props) => {
         },
     ];
 
+    const seriesBar = [
+        {
+            data: props.data[5],
+        }
+    ]
+
     // useEffect(() => {
     //     const promise = axios("http://localhost:5000/binance/btcusdt");
     //     promise
@@ -43,6 +49,9 @@ const CandleStick = (props) => {
         },
         xaxis: {
             type: "datetime",
+            labels: {
+                datetimeUTC: false,
+            },
         },
         yaxis: {
             tooltip: {
@@ -60,6 +69,9 @@ const CandleStick = (props) => {
             },
         },
     };
+    const optionsBar ={
+
+    };
 
     return (
         <div id="chart">
@@ -70,6 +82,13 @@ const CandleStick = (props) => {
                 type="candlestick"
                 height={350}
             />
+            {/* <ReactApexChart 
+            //  @ts-ignore
+            options={optionsBar} 
+            series={seriesBar} 
+            type="bar" 
+            height={160} 
+            /> */}
         </div>
     );
 };

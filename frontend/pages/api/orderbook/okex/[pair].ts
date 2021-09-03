@@ -6,7 +6,7 @@ const okex = async (req: NextApiRequest, res: NextApiResponse) => {
     if (Array.isArray(pair)) {
         return res.status(400).send("invalid pair.");
     }
-    const limit = 50;
+    const limit = 40;
     const depth = pair === "xrpusdt" ? 0.0001 : 0.1;
     const newPairName =
         pair.toUpperCase().slice(0, 3) +
