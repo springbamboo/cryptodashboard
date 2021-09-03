@@ -7,6 +7,8 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 const CandleStick = (props) => {
     // const [klineDdata, setKlineData] = useState([]);
+    const index:number[] = props.data[props.data.length - 1];
+    const lastPrice = index[4];
     const series = [
         {
             data: props.data,
@@ -29,9 +31,15 @@ const CandleStick = (props) => {
             background: "#424242",
         },
         title: {
-            text: "CandleStick Chart",
+            text: lastPrice,
             backgrouond: "white",
-            align: "left",
+            align: "Center",
+            style: {
+                fontSize:  '20px',
+                fontWeight:  'bold',
+                fontFamily:  undefined,
+                color:  '#ffffff'
+              },
         },
         xaxis: {
             type: "datetime",
