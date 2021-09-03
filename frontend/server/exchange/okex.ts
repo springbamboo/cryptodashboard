@@ -30,9 +30,9 @@ setInterval(() => {
                 if (err) return console.log(err);
                 try {
                     pairs[pair.toUpperCase() + "USDT"].ratio.short =
-                        100 / (1 + parseFloat(JSON.parse(payload)[0][1]));
+                        1 / (1 + parseFloat(JSON.parse(payload)[0][1]));
                     pairs[pair.toUpperCase() + "USDT"].ratio.long =
-                        100 - pairs[pair.toUpperCase() + "USDT"].ratio.short;
+                        1 - pairs[pair.toUpperCase() + "USDT"].ratio.short;
                 } catch (err) {
                     return console.log(err);
                 }
