@@ -1,11 +1,10 @@
 import { Dispatch, SetStateAction } from "react";
 import { CoindataObj } from "../../share/model";
 
-const WS_URL_BASE = "ws://localhost:5001";
-
 function connectWS<T>(path: string, setValue: Dispatch<SetStateAction<T>>) {
     if (typeof WebSocket === "undefined") return null;
-    const url = `${WS_URL_BASE}/${path}`;
+    const WS_ORIGIN = location.origin.replace(/https?/, "ws");
+    const url = `${WS_ORIGIN}/${path}`;
     const socket = new WebSocket(url);
     socket.addEventListener("open", (e) => {
         console.log("open");
