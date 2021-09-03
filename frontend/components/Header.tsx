@@ -5,7 +5,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-
 import Link from "next/link";
 import Auth from "../services/auth";
 import { AccountCircle } from "@material-ui/icons";
@@ -32,15 +31,14 @@ export default function ButtonAppBar() {
         <div className={classes.root}>
             <AppBar position="static" color="inherit">
                 <Toolbar>
-                    {/* <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-            <MenuIcon />
-          </IconButton> */}
                     <Typography variant="h6" className={classes.title}>
-                        CRYPTO DATA
+                        <Link href="/">
+                            QRYPTO DATA
+                        </Link>
                     </Typography>
-                    <Button>Home</Button>
-                    <Button>Our API</Button>
-                    <Button>About</Button>
+                    <Link href="/">
+                        <Button>Home</Button>
+                    </Link>
                     {Auth.isLogin ? (
                         <Button startIcon={<AccountCircle />}>
                             {Auth.userStatus.username}

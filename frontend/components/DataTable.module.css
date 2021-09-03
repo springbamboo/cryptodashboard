@@ -33,7 +33,6 @@
 
 .logoParent {
     display: flex;
-    /* justify-content: center; */
     align-items: center;
 }
 .logoSpace {
@@ -44,6 +43,10 @@
 .exchange:hover {
     text-decoration: underline;
     font-weight: bold;
+}
+
+.clickprevent {
+    pointer-events: none;
 }
 
 .blur {
