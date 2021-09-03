@@ -105,8 +105,8 @@ const bitfinex = async (req: NextApiRequest, res: NextApiResponse) => {
             d[0],
             d[1],
             d[3],
-            d[2],
             d[4],
+            d[2],
             // d[5]
         ];
     });
@@ -118,7 +118,6 @@ const bybit = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send("invalid pair.");
     }
     const newPairName = pairName.toUpperCase();
-    // console.log(pairName);
     const httpEndPoint: string = "https://api.bybit.com";
     const httpKline: string = `/spot/quote/v1/kline?symbol=${newPairName}&interval=1m&limit=200`;
     const response = await axios.get(httpEndPoint + httpKline);
