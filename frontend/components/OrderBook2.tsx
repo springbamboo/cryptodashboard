@@ -18,16 +18,16 @@ const OrderBook2 = (props: any) => {
         },
         title: {
             text: "ASK",
-            align: 'center',
+            align: "center",
             margin: 5,
             offsetX: 0,
             offsetY: 0,
             floating: false,
             style: {
-              fontSize:  '20px',
-              fontWeight:  'bold',
-              fontFamily:  undefined,
-              color:  'red'
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: undefined,
+                color: "red",
             },
         },
         dataLabels: {
@@ -53,9 +53,9 @@ const OrderBook2 = (props: any) => {
             axisTicks: {
                 show: true,
             },
-            labels:{
-                formatter: (val:number) => val.toFixed(4),
-            }
+            labels: {
+                formatter: (val: number) => val.toFixed(4),
+            },
         },
         theme: {
             mode: "dark",

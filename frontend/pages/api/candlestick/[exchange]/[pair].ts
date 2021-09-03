@@ -27,7 +27,7 @@ const binance = async (req: NextApiRequest, res: NextApiResponse) => {
     const response = await axios.get(httpEndPoint + httpKline);
     const newData = response.data;
     const cdata = newData.map((d: string[]) => [
-        d[0], 
+        d[0],
         parseFloat(d[1]),
         parseFloat(d[2]),
         parseFloat(d[3]),
@@ -85,7 +85,6 @@ const okex = async (req: NextApiRequest, res: NextApiResponse) => {
             parseFloat(d[3]),
             parseFloat(d[4]),
             // parseFloat(d[6])
-
         ];
     });
     res.status(200).json(cdata);

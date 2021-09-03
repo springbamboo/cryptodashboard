@@ -6,7 +6,7 @@ const huobi = async (req: NextApiRequest, res: NextApiResponse) => {
     if (Array.isArray(pair)) {
         return res.status(400).send("invalid pair.");
     }
-    const step: string = pair === "xrpusdt" ? 'step9':'step12' 
+    const step: string = pair === "xrpusdt" ? "step9" : "step12";
     const newPairName = pair.slice(0, 3) + "-" + pair.slice(3);
     const huobiEndPoint = "https://api.hbdm.com";
     const huobiOrderBook = `/linear-swap-ex/market/depth?contract_code=${newPairName}&type=${step}`;

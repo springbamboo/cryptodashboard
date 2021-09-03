@@ -18,16 +18,16 @@ const OrderBook = (props: any) => {
         },
         title: {
             text: "BID",
-            align: 'center',
+            align: "center",
             margin: 5,
             offsetX: 0,
             offsetY: 0,
             floating: false,
             style: {
-              fontSize:  '20px',
-              fontWeight:  'bold',
-              fontFamily:  undefined,
-              color:  'green'
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: undefined,
+                color: "green",
             },
         },
         dataLabels: {
@@ -41,7 +41,6 @@ const OrderBook = (props: any) => {
         xaxis: {
             // /decimalsInFloat:3,
             categories: data[2],
-
         },
         grid: {
             xaxis: {
@@ -57,9 +56,9 @@ const OrderBook = (props: any) => {
                 show: true,
             },
             opposite: true,
-            labels:{
-                formatter: (val:number) => val.toFixed(4),
-            }
+            labels: {
+                formatter: (val: number) => val.toFixed(4),
+            },
         },
         theme: {
             mode: "dark",
