@@ -3,7 +3,8 @@
     "format": "npm run format --prefix backend; npm run format --prefix frontend",
     "dev": "npm run dev --prefix backend & npm run dev --prefix frontend",
     "build": "npm run build --prefix backend; npm run build --prefix frontend",
-    "start": "npm run start --prefix backend & npm run start --prefix frontend"
+    "start": "npm run start --prefix backend & npm run start --prefix frontend",
+    "postinstall": "npm install --prefix backend; npm install --prefix frontend"
   },
   "name": "crypto-data-plaform",
   "description": "A project for UEQ camp",
@@ -26,11 +27,5 @@
   "bugs": {
     "url": "https://github.com/ueqareer/ueq_camp_202106_team_c/issues"
   },
-  "homepage": "https://github.com/ueqareer/ueq_camp_202106_team_c#readme",
-  "dependencies": {
-    "next": "^11.1.2",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.4.2"
-  }
+  "homepage": "https://github.com/ueqareer/ueq_camp_202106_team_c#readme"
 }
