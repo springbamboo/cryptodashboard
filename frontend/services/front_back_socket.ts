@@ -20,7 +20,7 @@ function connectWS(path: string) {
             console.log(e);
         });
     }
-    return socket
+    return socket;
 }
 
 export const connectHomeWS = () => connectWS("home");

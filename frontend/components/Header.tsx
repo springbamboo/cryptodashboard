@@ -32,9 +32,7 @@ export default function ButtonAppBar() {
             <AppBar position="static" color="inherit">
                 <Toolbar>
                     <Typography variant="h6" className={classes.title}>
-                        <Link href="/">
-                            QRYPTO DATA
-                        </Link>
+                        <Link href="/">QRYPTO DATA</Link>
                     </Typography>
                     <Link href="/">
                         <Button>Home</Button>

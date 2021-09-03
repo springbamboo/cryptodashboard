@@ -214,9 +214,21 @@ export default function BasicTable() {
                             <span className={styles.logoSpace}></span>
                             <Link
                                 // href={`${symbol.toLowerCase()}/${val.Exchange}`}
-                                href={Auth.isLogin || i == 0 ? `${symbol.toLowerCase()}/${val.Exchange}` : ''}
+                                href={
+                                    Auth.isLogin || i == 0
+                                        ? `${symbol.toLowerCase()}/${
+                                              val.Exchange
+                                          }`
+                                        : ""
+                                }
                             >
-                                <a className={ Auth.isLogin || i == 0 ? styles.exchange : styles.clickprevent }>
+                                <a
+                                    className={
+                                        Auth.isLogin || i == 0
+                                            ? styles.exchange
+                                            : styles.clickprevent
+                                    }
+                                >
                                     {val.Exchange}
                                 </a>
                             </Link>
