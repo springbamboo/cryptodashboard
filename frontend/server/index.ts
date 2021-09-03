@@ -14,8 +14,14 @@ const DotEnvResult = dotenv.config();
 if (DotEnvResult.error) {
     console.log(".env not detected");
 }
-const { DB_HOST, DB_USER, DB_PASS, DB_TABLE, PORT = 3000 } = process.env;
-const dev = process.env.NODE_ENC !== "production";
+const {
+    NODE_ENV,
+    DB_HOST,
+    DB_USER,
+    DB_PASS,
+    DB_TABLE,
+    PORT = 3000,
+} = process.env;
 
 // 認証用DBへ接続
 async function connectDB(): Promise<void> {
@@ -82,7 +88,7 @@ async function initializeHTTPServer() {
     });
 }
 
-const app = next({ dev });
+const app = next({ dev: NODE_ENV !== 'production' });
 const handle = app.getRequestHandler();
 
 app.prepare()

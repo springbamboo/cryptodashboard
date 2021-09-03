@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "next build && tsc --project tsconfig.server.json",
-    "start": "node dist/frontend/server/index.js",
+    "start": "cross-env NODE_ENV=production node dist/frontend/server/index.js",
     "lint": "next lint",
     "format": "npx prettier --write './**/*.{js,ts,jsx,tsx}'"
   },
