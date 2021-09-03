@@ -8,7 +8,7 @@ const OrderBook = (props: any) => {
     const data: number[][] = props.data;
     const series = [
         {
-            data: data[1],
+            data: data[3],
         },
     ];
     const options = {
@@ -39,7 +39,8 @@ const OrderBook = (props: any) => {
             },
         },
         xaxis: {
-            categories: data[0],
+            // decimalsInFloat:3,
+            categories: data[2],
 
         },
         grid: {
@@ -50,11 +51,12 @@ const OrderBook = (props: any) => {
             },
         },
         yaxis: {
+            // decimalsInFloat:3,
             reversed: true,
             axisTicks: {
                 show: true,
             },
-            opposite: true,
+            opposite: false,
         },
         theme: {
             mode: "dark",

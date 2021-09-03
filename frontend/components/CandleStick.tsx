@@ -15,11 +15,11 @@ const CandleStick = (props) => {
         },
     ];
 
-    const seriesBar = [
-        {
-            data: props.data[5],
-        }
-    ]
+    // const seriesBar = [
+    //     {
+    //         data: props.data[5],
+    //     }
+    // ]
 
     // useEffect(() => {
     //     const promise = axios("http://localhost:5000/binance/btcusdt");
@@ -69,9 +69,9 @@ const CandleStick = (props) => {
             },
         },
     };
-    const optionsBar ={
+    // const optionsBar ={
 
-    };
+    // };
 
     return (
         <div id="chart">

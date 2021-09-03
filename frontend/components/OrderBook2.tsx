@@ -8,7 +8,7 @@ const OrderBook2 = (props: any) => {
     const data: number[][] = props.data;
     const series = [
         {
-            data: data[3],
+            data: data[1],
         },
     ];
     const options = {
@@ -39,7 +39,7 @@ const OrderBook2 = (props: any) => {
             },
         },
         xaxis: {
-            categories: data[2],
+            categories: data[0],
         },
         grid: {
             xaxis: {
