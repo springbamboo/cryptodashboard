@@ -3,6 +3,7 @@ import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import request from "request";
 import EventEmitter from "events";
+import log from "../lib/log";
 export const bitfinexEvent = new EventEmitter();
 
 const ws: WebSocket = new WebSocket("wss://api-pub.bitfinex.com/ws/2");
@@ -57,6 +58,7 @@ setInterval(() => {
 }, 1000);
 
 ws.on("open", () => {
+    log("info", "\x1b[36mWebSocket\x1b[0m - Connected to Bitfinex");
     for (let key in coinData) {
         // price, quantity, changeのため
         const message: string = JSON.stringify({

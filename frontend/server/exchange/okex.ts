@@ -4,6 +4,7 @@ import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import request from "request";
 import EventEmitter from "events";
+import log from "../lib/log";
 export const okexEvent = new EventEmitter();
 
 const ws: WebSocket = new WebSocket("wss://awspush.okex.com:8443/ws/v3");
@@ -41,6 +42,7 @@ setInterval(() => {
 }, 1000);
 
 ws.on("open", () => {
+    log("info", "\x1b[36mWebSocket\x1b[0m - Connected to Okex");
     const message: string = JSON.stringify({
         op: "subscribe",
         args: [
