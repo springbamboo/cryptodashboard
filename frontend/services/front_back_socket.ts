@@ -3,7 +3,9 @@ import { CoindataObj } from "../../share/model";
 
 function connectWS<T>(path: string, setValue: Dispatch<SetStateAction<T>>) {
     if (typeof WebSocket === "undefined") return null;
-    const WS_ORIGIN = location.origin.replace(/https?/, "ws");
+    // "http"  -> "ws"     on localhost
+    // "https" -> "wss"    on server
+    const WS_ORIGIN = location.origin.replace(/^http/, "ws");
     const url = `${WS_ORIGIN}/${path}`;
     const socket = new WebSocket(url);
     socket.addEventListener("open", (e) => {
