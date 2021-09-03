@@ -5,7 +5,6 @@ import {
     TextField,
     Typography,
     Button,
-    Link,
     CircularProgress,
     Dialog,
     DialogTitle,
@@ -14,6 +13,7 @@ import {
 } from "@material-ui/core";
 import { PersonAddOutlined } from "@material-ui/icons";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import React, { FormEvent, useState, ChangeEvent } from "react";
 import Auth from "../services/auth";
 import styles from "./signup.module.css";
@@ -129,8 +129,8 @@ export default function Signup() {
                 </form>
                 <Grid container justifyContent="flex-end">
                     <Grid item>
-                        <Link href="#" variant="body2">
-                            Already have an account? Sign in
+                        <Link href="login" passHref>
+                        Already have an account? Sign in
                         </Link>
                     </Grid>
                 </Grid>
