@@ -53,6 +53,9 @@ const OrderBook2 = (props: any) => {
             axisTicks: {
                 show: true,
             },
+            labels:{
+                formatter: (val:number) => val.toFixed(4),
+            }
         },
         theme: {
             mode: "dark",
