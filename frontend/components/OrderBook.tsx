@@ -39,7 +39,7 @@ const OrderBook = (props: any) => {
             },
         },
         xaxis: {
-            // decimalsInFloat:3,
+            // /decimalsInFloat:3,
             categories: data[2],
 
         },

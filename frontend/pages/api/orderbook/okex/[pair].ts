@@ -28,6 +28,7 @@ const okex = async (req: NextApiRequest, res: NextApiResponse) => {
         xbid[j] = parseFloat(response.data.bids[j][0]);
         ybid[j] = parseFloat(response.data.bids[j][1]);
     }
+    // console.log(xask,xbid);
     const orderbook = [xask, yask, xbid, ybid];
     return res.status(200).json(orderbook);
 };
