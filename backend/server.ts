@@ -7,10 +7,9 @@ import apiRoutes from "./api/routes";
 import dotenv from "dotenv";
 import "./exchange/controll";
 
-const DEResult = dotenv.config();
-if (DEResult.error) {
-    console.log(".envファイルの読み込みに失敗。");
-    throw DEResult.error;
+const DotEnvResult = dotenv.config();
+if (DotEnvResult.error) {
+    console.log("Cannot read .env file");
 }
 const { DB_HOST, DB_USER, DB_PASS, DB_TABLE } = process.env;
 

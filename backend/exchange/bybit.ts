@@ -32,13 +32,22 @@ setInterval(() => {
             pair = coinNameHttp[i];
             let http_ratio = `/v2/public/account-ratio?symbol=${pair}&period=5min`;
             request(http_endPoint + http_ratio, (err, response, payload) => {
-                for (let j in pairs) {
-                    if (j === JSON.parse(payload).result[0].symbol)
-                        // console.log(JSON.parse(payload).result[0])
-                        pairs[JSON.parse(payload).result[0].symbol].ratio.long =
-                            JSON.parse(payload).result[0].buy_ratio;
-                    pairs[JSON.parse(payload).result[0].symbol].ratio.short =
-                        JSON.parse(payload).result[0].sell_ratio;
+                if (err) return console.log(err);
+                try {
+                    for (let j in pairs) {
+                        if (j === JSON.parse(payload).result[0].symbol)
+                            // console.log(JSON.parse(payload).result[0])
+                            pairs[
+                                JSON.parse(payload).result[0].symbol
+                            ].ratio.long =
+                                JSON.parse(payload).result[0].buy_ratio;
+                        pairs[
+                            JSON.parse(payload).result[0].symbol
+                        ].ratio.short =
+                            JSON.parse(payload).result[0].sell_ratio;
+                    }
+                } catch (err) {
+                    return console.log(err);
                 }
             });
         }

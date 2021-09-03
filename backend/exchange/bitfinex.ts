@@ -22,33 +22,37 @@ const coinData: { [key: string]: [number, number, number] } = {
 };
 let fundingId: number = 0;
 
-let clients: WebSocket[] = [];
-
 setInterval(() => {
-    try {
-        for (let i in pairs) {
-            let pair: string = i.slice(0, 3);
-            const http_funding_short = `stats1/pos.size:1m:t${pair}USD:short/hist`;
-            const http_funding_long = `stats1/pos.size:1m:t${pair}USD:long/hist`;
-            request(
-                http_endPoint + http_funding_short,
-                function (err, response, payload) {
+    for (let i in pairs) {
+        let pair: string = i.slice(0, 3);
+        const http_funding_short = `stats1/pos.size:1m:t${pair}USD:short/hist`;
+        const http_funding_long = `stats1/pos.size:1m:t${pair}USD:long/hist`;
+        request(
+            http_endPoint + http_funding_short,
+            function (err, response, payload) {
+                if (err) return console.log(err);
+                try {
                     coinData[pair][1] = parseFloat(JSON.parse(payload)[0][1]); // shortの値を記憶
+                } catch (err) {
+                    return console.log(err);
                 }
-            );
-            request(
-                http_endPoint + http_funding_long,
-                function (err, response, payload) {
+            }
+        );
+        request(
+            http_endPoint + http_funding_long,
+            function (err, response, payload) {
+                if (err) return console.log(err);
+                try {
                     coinData[pair][2] = parseFloat(JSON.parse(payload)[0][1]); // longの値を記憶
+                } catch (err) {
+                    return console.log(err);
                 }
-            );
-            pairs[i].ratio.short =
-                coinData[pair][1] / (coinData[pair][1] + coinData[pair][2]); // shortの割合計算
-            pairs[i].ratio.long =
-                coinData[pair][2] / (coinData[pair][1] + coinData[pair][2]); // shortの割合計算
-        }
-    } catch (e) {
-        console.log(e);
+            }
+        );
+        pairs[i].ratio.short =
+            coinData[pair][1] / (coinData[pair][1] + coinData[pair][2]); // shortの割合計算
+        pairs[i].ratio.long =
+            coinData[pair][2] / (coinData[pair][1] + coinData[pair][2]); // shortの割合計算
     }
 }, 1000);
 

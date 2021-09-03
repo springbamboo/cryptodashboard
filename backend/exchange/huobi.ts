@@ -23,12 +23,17 @@ setInterval(() => {
         let pair: string = coinNameHttp[i];
         const http_ratio = `/swap_elite_account_ratio?contract_code=${pair}&period=1day`;
         request(http_endPoint + http_ratio, function (err, response, payload) {
-            const ratioData = JSON.parse(payload);
-            if (ratioData.data.list[1]) {
-                pairs[pair.replace("-", "")].ratio.short =
-                    ratioData.data.list[1].sell_ratio;
-                pairs[pair.replace("-", "")].ratio.long =
-                    ratioData.data.list[1].buy_ratio;
+            if (err) return console.log(err);
+            try {
+                const ratioData = JSON.parse(payload);
+                if (ratioData.data.list[1]) {
+                    pairs[pair.replace("-", "")].ratio.short =
+                        ratioData.data.list[1].sell_ratio;
+                    pairs[pair.replace("-", "")].ratio.long =
+                        ratioData.data.list[1].buy_ratio;
+                }
+            } catch (err) {
+                return console.log(err);
             }
         });
     }
