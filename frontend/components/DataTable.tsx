@@ -6,7 +6,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { connectHomeWS } from "../services/front_back_socket";
+import { connectHomeWS, disconnectHomeWS } from "../services/front_back_socket";
 import { useState, useEffect, useRef } from "react";
 import styles from "./DataTable.module.css";
 import millify from "millify";
@@ -181,7 +181,10 @@ export default function BasicTable() {
             setWsData(JSON.parse(e.data) as CoindataObj);
         };
         socket.addEventListener("message", listener);
-        return () => socket.removeEventListener("message", listener);
+      return () => {
+        socket.removeEventListener("message", listener);
+        disconnectHomeWS();
+      }
     }, []);
 
     // wsDataが更新されたら(WS経由でデータが来たら)

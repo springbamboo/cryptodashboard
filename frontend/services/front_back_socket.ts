@@ -24,4 +24,8 @@ function connectWS(path: string) {
 }
 
 export const connectHomeWS = () => connectWS("home");
+export const disconnectHomeWS = () => {
+  socket.close();
+  socket = null;
+}
 // export default useWsService
