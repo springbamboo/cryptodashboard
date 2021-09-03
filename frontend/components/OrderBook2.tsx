@@ -1,13 +1,11 @@
 import React from "react";
 import dynamic from "next/dynamic";
-import axios from "axios";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
 });
 
 const OrderBook2 = (props: any) => {
     const data: number[][] = props.data;
-    // console.log(data[1]);
     const series = [
         {
             data: data[3],
@@ -16,7 +14,21 @@ const OrderBook2 = (props: any) => {
     const options = {
         chart: {
             type: "bar",
-            height: 600,
+            height: "auto",
+        },
+        title: {
+            text: "ASK",
+            align: 'center',
+            margin: 5,
+            offsetX: 0,
+            offsetY: 0,
+            floating: false,
+            style: {
+              fontSize:  '20px',
+              fontWeight:  'bold',
+              fontFamily:  undefined,
+              color:  'red'
+            },
         },
         dataLabels: {
             enabled: true,
@@ -37,7 +49,7 @@ const OrderBook2 = (props: any) => {
             },
         },
         yaxis: {
-            reversed: true,
+            reversed: false,
             axisTicks: {
                 show: true,
             },
@@ -60,7 +72,7 @@ const OrderBook2 = (props: any) => {
                 options={options}
                 series={series}
                 type="bar"
-                height={600}
+                height={800}
             />
         </div>
     );
