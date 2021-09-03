@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import Link from "next/link";
 import Auth from "../services/auth";
 import { AccountCircle } from "@material-ui/icons";
+import Image from "next/image";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         color: "#ccccff",
     },
+    space: {
+        width: 5,
+    }
 }));
 
 export default function ButtonAppBar() {
@@ -31,6 +35,13 @@ export default function ButtonAppBar() {
         <div className={classes.root}>
             <AppBar position="static" color="inherit">
                 <Toolbar>
+                    <Image
+                        src={`/images/Logo1.png`}
+                        width={40}
+                        height={40}
+                        alt="Logo"
+                    />
+                    <span className={classes.space}></span>
                     <Typography variant="h6" className={classes.title}>
                         <Link href="/">QRYPTO DATA</Link>
                     </Typography>
