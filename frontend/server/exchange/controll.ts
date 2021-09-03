@@ -42,6 +42,7 @@ const WebSocketServer = (httpServer: http.Server) => {
         clients.add(ws);
         logConnections();
         ws.on("close", () => {
+            clients.delete(ws);
             logConnections();
         });
     });

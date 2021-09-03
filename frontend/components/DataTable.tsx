@@ -176,7 +176,12 @@ export default function BasicTable() {
     // WebSocketと接続
     // 受け取ったデータはwsDataへ保管
     useEffect(() => {
-        connectHomeWS(setWsData);
+        const socket = connectHomeWS();
+        const listener = (e) => {
+            setWsData(JSON.parse(e.data) as CoindataObj);
+        };
+        socket.addEventListener("message", listener);
+        return () => socket.removeEventListener("message", listener);
     }, []);
 
     // wsDataが更新されたら(WS経由でデータが来たら)
