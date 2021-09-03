@@ -4,6 +4,7 @@ import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import request from "request";
 import EventEmitter from "events";
+import log from "../lib/log";
 export const huobiEvent = new EventEmitter();
 
 const ws: WebSocket = new WebSocket("wss://api.huobi.pro/ws");
@@ -40,6 +41,7 @@ setInterval(() => {
 }, 1000);
 
 ws.on("open", () => {
+    log("info", "\x1b[36mWebSocket\x1b[0m - Connected to Huobi");
     const messageBTC: string = JSON.stringify({
         sub: "market.btcusdt.detail",
         id: "id1",

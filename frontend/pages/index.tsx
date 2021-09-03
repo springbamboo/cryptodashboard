@@ -1,7 +1,7 @@
 // メインページ
 import React from "react";
 import Header from "../components/Header";
-import CurrencySwitchButton from "../components/CurrencySwitchButton";
+import CurrencySwitchButton from "../components/CurrencySwitch";
 import DataTable from "../components/DataTable";
 import Footer from "../components/Footer";
 

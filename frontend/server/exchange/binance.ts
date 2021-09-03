@@ -4,6 +4,7 @@ import request from "request";
 import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import EventEmitter from "events";
+import log from "../lib/log";
 export const binanceEvent = new EventEmitter();
 
 const exchange: string = "binance";
@@ -44,6 +45,7 @@ setInterval(() => {
 }, 5000);
 
 ws.on("open", () => {
+    log("info", "\x1b[36mWebSocket\x1b[0m - Connected to Binance");
     const message = JSON.stringify({
         method: "SUBSCRIBE",
         params: [

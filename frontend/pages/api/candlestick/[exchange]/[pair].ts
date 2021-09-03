@@ -27,7 +27,7 @@ const binance = async (req: NextApiRequest, res: NextApiResponse) => {
     const response = await axios.get(httpEndPoint + httpKline);
     const newData = response.data;
     const cdata = newData.map((d: string[]) => [
-        d[0], // T,OHLC,V
+        d[0],
         parseFloat(d[1]),
         parseFloat(d[2]),
         parseFloat(d[3]),
@@ -47,7 +47,6 @@ const huobi = async (req: NextApiRequest, res: NextApiResponse) => {
         pairName.toUpperCase().slice(0, 3) +
         "-" +
         pairName.toUpperCase().slice(3);
-    // console.log(newPairName);
     const huobiEndPoint = "https://api.hbdm.com";
     const huobiKline = `/linear-swap-ex/market/history/kline?contract_code=${newPairName}&period=1min&size=${size}`;
     const response: { data: any } = await axios(huobiEndPoint + huobiKline);
@@ -85,6 +84,7 @@ const okex = async (req: NextApiRequest, res: NextApiResponse) => {
             parseFloat(d[2]),
             parseFloat(d[3]),
             parseFloat(d[4]),
+            // parseFloat(d[6])
         ];
     });
     res.status(200).json(cdata);
@@ -105,8 +105,8 @@ const bitfinex = async (req: NextApiRequest, res: NextApiResponse) => {
             d[0],
             d[1],
             d[3],
-            d[2],
             d[4],
+            d[2],
             // d[5]
         ];
     });
@@ -118,7 +118,6 @@ const bybit = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).send("invalid pair.");
     }
     const newPairName = pairName.toUpperCase();
-    // console.log(pairName);
     const httpEndPoint: string = "https://api.bybit.com";
     const httpKline: string = `/spot/quote/v1/kline?symbol=${newPairName}&interval=1m&limit=200`;
     const response = await axios.get(httpEndPoint + httpKline);
@@ -129,6 +128,7 @@ const bybit = async (req: NextApiRequest, res: NextApiResponse) => {
         parseFloat(d[2]),
         parseFloat(d[3]),
         parseFloat(d[4]),
+        // parseFloat(d[5])
     ]);
     res.status(200).json(cdata);
 };

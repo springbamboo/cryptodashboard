@@ -8,11 +8,12 @@ import apiRoutes from "./api/routes";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import WebSocketServer from "./exchange/controll";
+import log from "./lib/log";
 
 // 環境変数のロード
 const DotEnvResult = dotenv.config();
 if (DotEnvResult.error) {
-    console.log(".env not detected");
+    log("warning", ".env not detected");
 }
 const {
     NODE_ENV,
@@ -25,43 +26,53 @@ const {
 
 // 認証用DBへ接続
 async function connectDB(): Promise<void> {
+    log("info", "Connecting to MongoDB...");
     try {
         const uri = `mongodb+srv://${DB_USER}:${DB_PASS}@${DB_HOST}/${DB_TABLE}?retryWrites=true&w=majority`;
         await mongoose.connect(uri, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-        console.log("Succesfully connect to MongoDB");
+        log("success", "Succesfully connect to MongoDB");
     } catch (err) {
-        console.error("Failed to connect to MongoDB", err);
+        log("error", "Failed to connect to MongoDB");
+        console.log(err);
     }
 }
 
 // DB接続後、Role情報がなければRoleを追加する
 function initializeDB(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
+        log("info", "Initializing database...");
         Role.estimatedDocumentCount({}, async (err, count) => {
             if (err) return reject(err);
-            if (count !== 0) return resolve();
+            if (count !== 0) {
+                log("success", "No need for initialization.");
+                return resolve();
+            }
             Promise.all([
                 new Role({ name: "user" })
                     .save()
                     .then(() =>
-                        console.log("added 'user' to roles collection")
+                        log("info", "Added 'user' to roles collection")
                     ),
                 new Role({ name: "admin" })
                     .save()
                     .then(() =>
-                        console.log("added 'admin' to roles collection")
+                        log("info", "Added 'admin' to roles collection")
                     ),
             ])
-                .then(() => resolve())
+                .then(() => {
+                    log("success", "Succesfully initialize database.");
+                    resolve();
+                })
                 .catch(() => reject());
         });
     });
 }
 
 async function initializeHTTPServer() {
+    log("info", "Starting HTTP server...");
     const server = express();
     // CORS
     const corsOptions = {
@@ -84,11 +95,14 @@ async function initializeHTTPServer() {
     });
 
     return server.listen(PORT, () => {
-        console.log(`Started server: http://localhost:${PORT}`);
+        log(
+            "success",
+            `Successfully started http server: http://localhost:${PORT}`
+        );
     });
 }
 
-const app = next({ dev: NODE_ENV !== 'production' });
+const app = next({ dev: NODE_ENV !== "production" });
 const handle = app.getRequestHandler();
 
 app.prepare()
@@ -97,6 +111,7 @@ app.prepare()
     .then(initializeHTTPServer)
     .then((httpServer) => WebSocketServer(httpServer))
     .catch((err) => {
+        log("error", "Failed to start server.");
         console.log(err);
         process.exit(1);
     });

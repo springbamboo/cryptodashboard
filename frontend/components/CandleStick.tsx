@@ -7,11 +7,19 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
 
 const CandleStick = (props) => {
     // const [klineDdata, setKlineData] = useState([]);
+    const index: number[] = props.data[props.data.length - 1];
+    const lastPrice = index[4];
     const series = [
         {
             data: props.data,
         },
     ];
+
+    // const seriesBar = [
+    //     {
+    //         data: props.data[5],
+    //     }
+    // ]
 
     // useEffect(() => {
     //     const promise = axios("http://localhost:5000/binance/btcusdt");
@@ -29,12 +37,21 @@ const CandleStick = (props) => {
             background: "#424242",
         },
         title: {
-            text: "CandleStick Chart",
+            text: lastPrice,
             backgrouond: "white",
-            align: "left",
+            align: "Center",
+            style: {
+                fontSize: "20px",
+                fontWeight: "bold",
+                fontFamily: undefined,
+                color: "#ffffff",
+            },
         },
         xaxis: {
             type: "datetime",
+            labels: {
+                datetimeUTC: false,
+            },
         },
         yaxis: {
             tooltip: {
@@ -52,6 +69,9 @@ const CandleStick = (props) => {
             },
         },
     };
+    // const optionsBar ={
+
+    // };
 
     return (
         <div id="chart">
@@ -62,6 +82,13 @@ const CandleStick = (props) => {
                 type="candlestick"
                 height={350}
             />
+            {/* <ReactApexChart 
+            //  @ts-ignore
+            options={optionsBar} 
+            series={seriesBar} 
+            type="bar" 
+            height={160} 
+            /> */}
         </div>
     );
 };

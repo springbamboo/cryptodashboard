@@ -1,30 +1,27 @@
-import { Dispatch, SetStateAction } from "react";
-import { CoindataObj } from "../../share/model";
+let socket: WebSocket | null = null;
 
-function connectWS<T>(path: string, setValue: Dispatch<SetStateAction<T>>) {
+function connectWS(path: string) {
     if (typeof WebSocket === "undefined") return null;
-    // "http"  -> "ws"     on localhost
-    // "https" -> "wss"    on server
-    const WS_ORIGIN = location.origin.replace(/^http/, "ws");
-    const url = `${WS_ORIGIN}/${path}`;
-    const socket = new WebSocket(url);
-    socket.addEventListener("open", (e) => {
-        console.log("open");
-    });
-    socket.addEventListener("message", (e) => {
-        setValue(JSON.parse(e.data) as T);
-    });
-    socket.addEventListener("close", (e) => {
-        console.log("close");
-        console.log(e);
-    });
-    socket.addEventListener("error", (e) => {
-        console.log("error");
-        console.log(e);
-    });
+    if (socket === null) {
+        // "http"  -> "ws"     on localhost
+        // "https" -> "wss"    on server
+        const WS_ORIGIN = location.origin.replace(/^http/, "ws");
+        const url = `${WS_ORIGIN}/${path}`;
+        socket = new WebSocket(url);
+        socket.addEventListener("open", (e) => {
+            console.log("open");
+        });
+        socket.addEventListener("close", (e) => {
+            console.log("close");
+            console.log(e);
+        });
+        socket.addEventListener("error", (e) => {
+            console.log("error");
+            console.log(e);
+        });
+    }
+    return socket;
 }
 
-export const connectHomeWS = (
-    setvalue: Dispatch<SetStateAction<CoindataObj>>
-) => connectWS<CoindataObj>("home", setvalue);
+export const connectHomeWS = () => connectWS("home");
 // export default useWsService

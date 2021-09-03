@@ -2,9 +2,9 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
 const binance = async (req: NextApiRequest, res: NextApiResponse) => {
-    const limit = 100;
     const httpEndPoint: string = "https://fapi.binance.com";
     const { pair } = req.query;
+    const limit = pair === "ethusdt" ? 1000 : 100;
     if (Array.isArray(pair)) {
         return res.status(400).send("invalid pair.");
     }
@@ -42,6 +42,7 @@ const binance = async (req: NextApiRequest, res: NextApiResponse) => {
     const yask: number[] = new Array(widthAsk).fill(0);
     let index_bid = 0;
     for (let i = bidOne; i >= bidLast; i -= delta) {
+        // for (let i = bidLast; i <= bidOne; i += delta) {
         xbid.push(i);
         for (let j = 0; j < limit; j++) {
             if (

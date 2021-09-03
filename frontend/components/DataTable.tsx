@@ -176,7 +176,12 @@ export default function BasicTable() {
     // WebSocketと接続
     // 受け取ったデータはwsDataへ保管
     useEffect(() => {
-        connectHomeWS(setWsData);
+        const socket = connectHomeWS();
+        const listener = (e) => {
+            setWsData(JSON.parse(e.data) as CoindataObj);
+        };
+        socket.addEventListener("message", listener);
+        return () => socket.removeEventListener("message", listener);
     }, []);
 
     // wsDataが更新されたら(WS経由でデータが来たら)
@@ -208,9 +213,22 @@ export default function BasicTable() {
                             />
                             <span className={styles.logoSpace}></span>
                             <Link
-                                href={`${symbol.toLowerCase()}/${val.Exchange}`}
+                                // href={`${symbol.toLowerCase()}/${val.Exchange}`}
+                                href={
+                                    Auth.isLogin || i == 0
+                                        ? `${symbol.toLowerCase()}/${
+                                              val.Exchange
+                                          }`
+                                        : ""
+                                }
                             >
-                                <a className={styles.exchange}>
+                                <a
+                                    className={
+                                        Auth.isLogin || i == 0
+                                            ? styles.exchange
+                                            : styles.clickprevent
+                                    }
+                                >
                                     {val.Exchange}
                                 </a>
                             </Link>

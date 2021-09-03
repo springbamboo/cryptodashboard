@@ -15,7 +15,7 @@ const bybit = async (req: NextApiRequest, res: NextApiResponse) => {
         ybid: number[] = [],
         xask: number[] = [],
         yask: number[] = [];
-    for (let i = response.data.result.bids.length - 1; i >= 0; i--) {
+    for (let i = 0; i <= response.data.result.bids.length - 1; i++) {
         xbid[i] = parseFloat(response.data.result.bids[i][0]);
         ybid[i] = parseFloat(response.data.result.bids[i][1]);
     }
@@ -23,7 +23,7 @@ const bybit = async (req: NextApiRequest, res: NextApiResponse) => {
         xask[j] = parseFloat(response.data.result.asks[j][0]);
         yask[j] = parseFloat(response.data.result.asks[j][1]);
     }
-    const bybitOrder = [xbid, ybid, xask, yask];
+    const bybitOrder = [xask, yask, xbid, ybid];
     return res.status(200).json(bybitOrder);
 };
 

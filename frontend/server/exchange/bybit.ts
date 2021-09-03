@@ -4,6 +4,7 @@ import request from "request";
 import { Coindata } from "./cointype";
 import { generateCoindata } from "./generatecoindata";
 import { EventEmitter } from "stream";
+import log from "../lib/log";
 export const bybitEvent = new EventEmitter();
 
 let pair: string;
@@ -57,6 +58,7 @@ setInterval(() => {
 }, 2000);
 
 ws.on("open", () => {
+    log("info", "\x1b[36mWebSocket\x1b[0m - Connected to Bybit");
     const message: string = JSON.stringify({
         op: "subscribe",
         args: [
