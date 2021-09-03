@@ -28,12 +28,17 @@ setInterval(() => {
         pair = coinNameHttp[i];
         let http_ratio = `/futures/data/topLongShortPositionRatio?symbol=${pair}&period=5m&limit=1`;
         request(http_endPoint + http_ratio, function (err, response, payload) {
-            pairs[JSON.parse(payload)[0].symbol].ratio.long = parseFloat(
-                JSON.parse(payload)[0].longAccount
-            );
-            pairs[JSON.parse(payload)[0].symbol].ratio.short = parseFloat(
-                JSON.parse(payload)[0].shortAccount
-            );
+            if (err) return console.log(err);
+            try {
+                pairs[JSON.parse(payload)[0].symbol].ratio.long = parseFloat(
+                    JSON.parse(payload)[0].longAccount
+                );
+                pairs[JSON.parse(payload)[0].symbol].ratio.short = parseFloat(
+                    JSON.parse(payload)[0].shortAccount
+                );
+            } catch (err) {
+                return console.log(err);
+            }
         });
     }
 }, 5000);
