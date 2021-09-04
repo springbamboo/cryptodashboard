@@ -203,9 +203,9 @@ export default function BasicTable() {
                     key={key}
                     className={Auth.isLogin || i == 0 ? "" : styles.blur}
                 >
-                    <TableCell component="th" scope="row">
+                    {/* <TableCell component="th" scope="row">
                         {val.Rank}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="left">
                         <div className={styles.logoParent}>
                             <Image
@@ -294,7 +294,7 @@ export default function BasicTable() {
                 <Table className={styles.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Rank</TableCell>
+                            {/* <TableCell>Rank</TableCell> */}
                             <TableCell align="left">Exchange</TableCell>
                             <TableCell align="left">Pair</TableCell>
                             <TableCell align="left">Price</TableCell>
@@ -322,7 +322,7 @@ export default function BasicTable() {
                 <Table className={styles.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Rank</TableCell>
+                            {/* <TableCell>Rank</TableCell> */}
                             {/* <TableCell align="left">Exchange</TableCell> */}
                             <TableCell align="left">Exchange</TableCell>
                             <TableCell align="left">Pair</TableCell>
@@ -351,7 +351,7 @@ export default function BasicTable() {
                 <Table className={styles.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Rank</TableCell>
+                            {/* <TableCell>Rank</TableCell> */}
                             {/* <TableCell align="left">Exchange</TableCell> */}
                             <TableCell align="left">Exchange</TableCell>
                             <TableCell align="left">Pair</TableCell>
